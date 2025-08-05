@@ -1,13 +1,23 @@
+---
+import '../styles/global.css';
+import { Font } from 'astro:assets';
+import Navigation from '../components/Navigation.astro';
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="dk">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>Nintendopusheren</title>
+		<Font cssVariable="--font-body" preload />
+		<Font cssVariable="--font-heading" preload />
+		<Font cssVariable="--font-pill" preload />
 	</head>
-	<body>
+	<body class="bg-surface-page">
+		<Navigation />
 		<slot />
 	</body>
 </html>

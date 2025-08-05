@@ -1,0 +1,34 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/images/logo.png";
+import ProductToggle from "./react/ProductToggle";
+import CatButton from "./react/CatButton";
+import UserButton from "./react/UserButton";
+import BasketButton from "./react/BasketButton";
+---
+
+<nav class="bg-surface-navbar | w-full h-32 sm:h-48 | flex flex-col | justify-around | fixed top-0 left-0 | pt-4 pb-4 sm:pb-0">
+    <div id="upper-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between | px-4 sm:px-8">
+        <div class="hidden lg:block self-center">    
+            <Image src={logo} alt="Nintendopusheren" width={100} height={100} class="hidden sm:block"/>
+        </div>
+        <h1 class="font-heading text-hero text-2xl sm:text-4xl lg:text-6xl | justify-self-center | sm:m-auto">Nintendopusheren</h1>
+        <div id="burger-icon" class="flex flex-col gap-2 | cursor-pointer | lg:hidden">
+            <div class="w-10 h-0.75 | bg-surface-burger-icon"></div>
+            <div class="w-10 h-0.75 | bg-surface-burger-icon"></div>
+            <div class="w-10 h-0.75 | bg-surface-burger-icon"></div>
+        </div>
+    </div>
+    <div id="lower-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between | items-center | px-4 sm:px-8">
+        <div class="flex flex-row gap-28">
+            <ProductToggle />
+            <CatButton name="Nyheder"/>
+            <CatButton name="Info"/>
+            <CatButton name="Kontakt"/>
+        </div>
+        <div class="flex flex-row gap-4">
+            <UserButton />
+            <BasketButton />
+        </div>
+    </div>
+</nav>
