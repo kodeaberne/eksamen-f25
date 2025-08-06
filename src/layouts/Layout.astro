@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { Font } from 'astro:assets';
 import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <!doctype html>
@@ -18,8 +19,12 @@ import Navigation from '../components/Navigation.astro';
 	</head>
 	<body class="bg-surface-page">
 		<Navigation />
+	<main class="w-full h-full bg-surface-page">
 		<slot />
+	</main>
+		<Footer />
 	</body>
+	
 </html>
 
 <style>

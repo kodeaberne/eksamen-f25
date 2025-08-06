@@ -80,6 +80,7 @@
     --color-surface-page: var(--color-grey-400);
     --color-surface-burger-icon: var(--color-grey-400);
     --color-surface-basket: var(--color-mutedred-400);
+    --color-surface-footer: var(--color-black-400);
     --color-text-body: var(--color-black-400);
     --color-text-body-alt: var(--color-grey-400);
     --color-text-menu-active: var(--color-grey-200);
