@@ -21,14 +21,14 @@ import BasketButton from "./react/BasketButton";
     </div>
     <div id="lower-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between | items-center | px-4 sm:px-8">
         <div class="flex flex-row gap-28">
-            <ProductToggle />
-            <CatButton name="Nyheder"/>
-            <CatButton name="Info"/>
-            <CatButton name="Kontakt"/>
+            <ProductToggle client:load />
+            <CatButton name="Nyheder" client:load />
+            <CatButton name="Info" client:load />
+            <CatButton name="Kontakt" client:load />
         </div>
         <div class="flex flex-row gap-4">
-            <UserButton />
-            <BasketButton />
+            <UserButton client:load />
+            <BasketButton client:load />
         </div>
     </div>
 </nav>
