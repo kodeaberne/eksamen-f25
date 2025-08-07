@@ -87,6 +87,7 @@
     --color-text-body: var(--color-black-400);
     --color-text-body-alt: var(--color-grey-400);
     --color-text-menu-active: var(--color-grey-200);
+    --color-text-menu-hover: var(--color-mutedred-400);
     --color-border-black: var(--color-black-700);
     --color-border-grey: var(--color-darkgrey-400);
     --color-border-focus: var(--color-mutedred-400);
