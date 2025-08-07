@@ -17,11 +17,11 @@ import Footer from '../components/Footer.astro';
 		<Font cssVariable="--font-heading" preload />
 		<Font cssVariable="--font-pill" preload />
 	</head>
-	<body class="bg-surface-page">
+	<body class="bg-surface-page flex flex-col min-h-screen">
 		<Navigation />
-	<main class="w-full h-full bg-surface-page | pt-32 sm:pt-48">
-		<slot />
-	</main>
+		<main class="w-full bg-surface-page flex-1 pt-32 sm:pt-48">
+			<slot />
+		</main>
 		<Footer />
 	</body>
 	

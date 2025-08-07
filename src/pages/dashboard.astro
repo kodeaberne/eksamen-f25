@@ -1,0 +1,362 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { supabase } from '../lib/supabase';
+
+export const prerender = false;
+
+// Constants
+const PLATFORMS = [
+	{ value: 'Nintendo Switch 2', label: 'Nintendo Switch 2' },
+	{ value: 'Nintendo Switch', label: 'Nintendo Switch' },
+	{ value: 'Nintendo 3DS', label: 'Nintendo 3DS' },
+	{ value: 'Nintendo 2DS', label: 'Nintendo 2DS' },
+	{ value: 'Nintendo Wii U', label: 'Nintendo Wii U' },
+	{ value: 'Nintendo Wii', label: 'Nintendo Wii' },
+	{ value: 'Nintendo GameCube', label: 'Nintendo GameCube' },
+	{ value: 'Nintendo Game Boy', label: 'Nintendo Game Boy' },
+	{ value: 'Nintendo Game Boy Color', label: 'Nintendo Game Boy Color' }
+];
+
+// Authentication check
+const accessToken = Astro.cookies.get('sb-access-token');
+const refreshToken = Astro.cookies.get('sb-refresh-token');
+
+if (!accessToken || !refreshToken) {
+	return Astro.redirect('/');
+}
+
+// Session validation
+let session;
+try {
+	session = await supabase.auth.setSession({
+		refresh_token: refreshToken.value,
+		access_token: accessToken.value,
+	});
+	
+	if (session.error) {
+		clearAuthCookies();
+		return Astro.redirect('/');
+	}
+} catch (error) {
+	console.error('Session error:', error);
+	clearAuthCookies();
+	return Astro.redirect('/');
+}
+
+const email = session.data.user?.email;
+
+// Helper function to clear auth cookies
+function clearAuthCookies() {
+	Astro.cookies.delete('sb-access-token', { path: '/' });
+	Astro.cookies.delete('sb-refresh-token', { path: '/' });
+}
+---
+
+<Layout title='Dashboard'>
+	<section class='flex flex-col items-center border-border-black border-2 p-8 text-text-body font-pill text-2xl place-self-center mt-4 w-9/10 mb-8 mx-1.5'>
+		<header class='text-center mb-8'>
+			<h1 class='text-text-body font-heading text-4xl'>Nintendopusheren Admin Dashboard</h1>
+			<h2 class='text-text-body font-heading text-2xl mt-4'>Logged in as: {email}</h2>
+		</header>
+
+		<!-- Sign Out Form -->
+		<div class='flex flex-col items-center justify-center mb-8'>
+			<form action='api/auth/signout' class='signout'>
+				<button 
+					type='submit' 
+					class='bg-surface-button-alt border-border-black border-2 p-2 text-text-body-alt font-heading text-2xl cursor-pointer hover:opacity-80 transition-opacity'
+				>
+					Sign out
+				</button>
+			</form>
+		</div>
+
+		<!-- Product Creation Form -->
+		<div class='w-full max-w-2xl'>
+			<h2 class='text-text-body font-heading text-4xl text-center mb-4'>Opret nyt produkt</h2>
+			<p class='text-text-body font-pill text-2xl text-center mb-8'>* = Obligatoriske felter</p>
+			
+			<form action='api/insert/insert' method='post' class='space-y-6' id='productForm'>
+				<!-- Title Field -->
+				<div class='form-field'>
+					<label for='title' class='block text-text-body font-heading text-2xl mb-2'>
+						*Titel:
+					</label>
+					<input 
+						type='text' 
+						name='title' 
+						id='title' 
+						required
+						class='w-full border-border-black border-2 p-2 text-text-body font-pill text-2xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+					/>
+				</div>
+
+				<!-- Platform Field -->
+				<div class='form-field'>
+					<label for='platform' class='block text-text-body font-heading text-2xl mb-2'>
+						*Platform:
+					</label>
+					<select 
+						name='platform' 
+						id='platform' 
+						required
+						class='w-full border-border-black border-2 p-2 text-text-body font-pill text-2xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+					>
+						<option value=''>Vælg en platform:</option>
+						{PLATFORMS.map(platform => (
+							<option value={platform.value}>{platform.label}</option>
+						))}
+					</select>
+				</div>
+
+				<!-- Price Fields -->
+				<div class='grid grid-cols-1 md:grid-cols-2 gap-4'>
+					<div class='form-field'>
+						<label for='price' class='block text-text-body font-heading text-2xl mb-2'>
+							*Pris:
+						</label>
+						<input 
+							type='number' 
+							name='price' 
+							id='price' 
+							required
+							min='0'
+							step='0.01'
+							class='w-full border-border-black border-2 p-2 text-text-body font-pill text-2xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+						/>
+					</div>
+					<div class='form-field'>
+						<label for='prevprice' class='block text-text-body font-heading text-2xl mb-2'>
+							Pris før rabat:
+						</label>
+						<input 
+							type='number' 
+							name='prevprice' 
+							id='prevprice' 
+							min='0'
+							step='0.01'
+							class='w-full border-border-black border-2 p-2 text-text-body font-pill text-2xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+						/>
+					</div>
+				</div>
+
+				<!-- Checkbox Fields -->
+				<div class='grid grid-cols-1 md:grid-cols-2 gap-4'>
+					<div class='form-field'>
+						<label class='flex items-center text-text-body font-heading text-2xl mb-2'>
+							<input 
+								type='checkbox' 
+								name='sale' 
+								id='sale' 
+								required
+								class='mr-2 w-5 h-5'
+							/>
+							*Tilbud:
+						</label>
+					</div>
+					<div class='form-field'>
+						<label class='flex items-center text-text-body font-heading text-2xl mb-2'>
+							<input 
+								type='checkbox' 
+								name='preorder' 
+								id='preorder' 
+								required
+								class='mr-2 w-5 h-5'
+							/>
+							*Preorder:
+						</label>
+					</div>
+				</div>
+
+				<!-- Release Date Field -->
+				<div class='form-field'>
+					<label for='releasedate' class='block text-text-body font-heading text-2xl mb-2'>
+						Udgivelsesdato:
+					</label>
+					<input 
+						type='date' 
+						name='releasedate' 
+						id='releasedate' 
+						class='w-full border-border-black border-2 p-2 text-text-body font-pill text-2xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+					/>
+				</div>
+
+				<!-- Description Field -->
+				<div class='form-field'>
+					<label for='description' class='block text-text-body font-heading text-2xl mb-2'>
+						*Beskrivelse:
+					</label>
+					<textarea 
+						name='description' 
+						id='description' 
+						required
+						rows='8'
+						class='w-full border-border-black border-2 p-2 text-text-body font-pill text-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-vertical'
+					></textarea>
+				</div>
+
+				<!-- Image Upload Field -->
+				<div class='form-field'>
+					<label for='image' class='block text-text-body font-heading text-2xl mb-2'>
+						Produktbillede:
+					</label>
+					<input 
+						type='file' 
+						name='image' 
+						id='image' 
+						accept='image/*' 
+						class='w-full border-border-black border-2 p-2 text-text-body font-pill text-2xl focus:outline-none focus:ring-2 focus:ring-blue-500'
+					/>
+					<div id='imagePreview' class='mt-2'></div>
+					<input type='hidden' name='imglink' id='imglink' />
+				</div>
+
+				<!-- Submit Button -->
+				<div class='text-center'>
+					<button 
+						type='submit' 
+						class='bg-surface-button-alt border-border-black border-2 p-2 text-text-body-alt font-heading text-2xl cursor-pointer hover:opacity-80 transition-opacity'
+					>
+						Opret produkt
+					</button>
+				</div>
+			</form>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const imageInput = document.getElementById('image') as HTMLInputElement;
+		const imagePreview = document.getElementById('imagePreview') as HTMLDivElement;
+		const imglinkInput = document.getElementById('imglink') as HTMLInputElement;
+		const form = document.getElementById('productForm') as HTMLFormElement;
+
+		// Check if all required elements exist
+		if (!imageInput || !imagePreview || !imglinkInput || !form) {
+			console.error('Required form elements not found');
+			return;
+		}
+
+		// Image upload handling
+		imageInput.addEventListener('change', async function(e) {
+			const target = e.target as HTMLInputElement;
+			const file = target.files?.[0];
+			if (!file) {
+				clearImagePreview();
+				return;
+			}
+
+			// Validate file type
+			if (!file.type.startsWith('image/')) {
+				alert('Please select a valid image file.');
+				clearImagePreview();
+				return;
+			}
+
+			// Validate file size (5MB limit)
+			if (file.size > 5 * 1024 * 1024) {
+				alert('Image file size must be less than 5MB.');
+				clearImagePreview();
+				return;
+			}
+
+			showImagePreview(file);
+			await uploadImage(file);
+		});
+
+		// Show image preview
+		function showImagePreview(file: File) {
+			const reader = new FileReader();
+			reader.onload = function(e) {
+				const result = e.target?.result as string;
+				imagePreview.innerHTML = `
+					<div class='mt-2'>
+						<img src="${result}" alt="Preview" class="max-w-xs max-h-48 border border-gray-300 rounded" />
+						<div class='text-sm text-gray-600 mt-1'>Uploading...</div>
+					</div>
+				`;
+			};
+			reader.readAsDataURL(file);
+		}
+
+		// Clear image preview
+		function clearImagePreview() {
+			imagePreview.innerHTML = '';
+			imglinkInput.value = '';
+		}
+
+		// Upload image to server
+		async function uploadImage(file: File) {
+			const formData = new FormData();
+			formData.append('image', file);
+
+			try {
+				const response = await fetch('/api/upload/upload', {
+					method: 'POST',
+					body: formData
+				});
+
+				if (response.ok) {
+					const result = await response.json();
+					imglinkInput.value = result.url;
+					
+					// Update preview with success message
+					const previewDiv = imagePreview.querySelector('div');
+					if (previewDiv) {
+						previewDiv.innerHTML = '<div class="text-sm text-green-600 mt-1">✓ Upload successful</div>';
+					}
+				} else {
+					const error = await response.text();
+					throw new Error(error);
+				}
+			} catch (error) {
+				console.error('Upload error:', error);
+				alert('Upload failed: ' + (error as Error).message);
+				clearImagePreview();
+			}
+		}
+
+		// Form submission handling
+		form.addEventListener('submit', function(e) {
+			if (imageInput.files && imageInput.files.length > 0 && !imglinkInput.value) {
+				e.preventDefault();
+				alert('Please wait for the image to upload before submitting the form.');
+			}
+		});
+
+		// Form validation
+		form.addEventListener('input', function(e) {
+			const requiredFields = form.querySelectorAll('[required]') as NodeListOf<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
+			const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+			
+			if (!submitButton) return;
+			
+			let isValid = true;
+			requiredFields.forEach(field => {
+				if (!field.value.trim()) {
+					isValid = false;
+				}
+			});
+
+			submitButton.disabled = !isValid;
+			submitButton.classList.toggle('opacity-50', !isValid);
+		});
+	});
+</script>
+
+<style>
+	.form-field {
+		margin-bottom: 1.5rem;
+	}
+	
+	.form-field input:focus,
+	.form-field select:focus,
+	.form-field textarea:focus {
+		box-shadow: 0 0 0 2px var(--color-border-focus);
+	}
+	
+	button:disabled {
+		cursor: not-allowed;
+	}
+</style>
