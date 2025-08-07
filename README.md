@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/108a451c-f232-44f2-b1e6-389a2e5c6e6f/deploy-status)](https://app.netlify.com/projects/nintendopusher/deploys)
 # Astro Starter Kit: Basics
 
 ```sh
