@@ -66,6 +66,9 @@ export default function UserButton(props) {
             <button className='text-text-body font-heading text-2xl place-self-end p-4 cursor-pointer' onClick={handleClick}>X</button>
             <div className='flex flex-col items-center justify-center gap-4'>
             <h1 className="text-text-body font-heading text-4xl">Logget ind</h1>
+            <form action="/api/auth/signout" method='get'>
+                <button type="submit" className='bg-surface-button-alt border-border-black border-2 p-2 text-text-body-alt font-heading text-2xl place-self-center mt-4 cursor-pointer'>Log ud</button>
+            </form>
             </div>
         </div>}
         </>
