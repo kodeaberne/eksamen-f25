@@ -5,12 +5,24 @@ import ProductToggle from "./react/ProductToggle";
 import CatButton from "./react/CatButton";
 import UserButton from "./react/UserButton";
 import BasketButton from "./react/BasketButton";
+export const prerender = false;
+
+let logStatus = "loggedOut";
+
+const { cookies, redirect } = Astro;
+
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
+
+if (accessToken && refreshToken) {
+  logStatus = "loggedIn";
+}
 ---
 
 <nav class="bg-surface-navbar | w-full h-32 sm:h-48 | flex flex-col | justify-around | fixed top-0 left-0 | pt-4 pb-4 sm:pb-0">
     <div id="upper-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between | px-4 sm:px-8">
         <div class="hidden lg:block self-center">    
-            <Image src={logo} alt="Nintendopusheren" width={100} height={100} class="hidden sm:block"/>
+            <Image src={logo} alt="Nintendopusheren" width={130} height={100} class="hidden sm:block"/>
         </div>
         <h1 class="font-heading text-hero text-2xl sm:text-4xl lg:text-6xl | justify-self-center | sm:m-auto">Nintendopusheren</h1>
         <div id="burger-icon" class="flex flex-col gap-2 | cursor-pointer | lg:hidden">
@@ -27,8 +39,20 @@ import BasketButton from "./react/BasketButton";
             <CatButton name="Kontakt" client:load />
         </div>
         <div class="flex flex-row gap-4">
-            <UserButton client:load />
+            <UserButton logStatus={logStatus} client:load  />
             <BasketButton client:load />
         </div>
     </div>
 </nav>
+
+<script>
+    // Backup event dispatch for login success
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        if (urlParams.get('login') === 'success') {
+            // Trigger a custom event as backup
+            window.dispatchEvent(new CustomEvent('loginSuccess'));
+        }
+    });
+</script>
