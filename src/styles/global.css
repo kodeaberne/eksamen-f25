@@ -6,6 +6,14 @@
     --font-pill: var(--font-pill);
 }
 
+/* Line clamp utility */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 @theme {
  --color-*: initial;
  --color-black-100: #CDCECE;
@@ -91,4 +99,10 @@
     --color-border-black: var(--color-black-700);
     --color-border-grey: var(--color-darkgrey-400);
     --color-border-focus: var(--color-mutedred-400);
+    --shadow-product-card: 4px 4px 0px 0px var(--color-black-400);
+    --color-surface-product-card: var(--color-grey-200);
+    --color-surface-preorder: var(--color-yellow-400);
+    --color-text-price: var(--color-black-600);
+    --color-buy-button: var(--color-mutedred-400);
+    --color-buy-button-text: var(--color-grey-100);
 }
