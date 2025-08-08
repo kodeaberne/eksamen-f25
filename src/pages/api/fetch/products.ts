@@ -1,10 +1,11 @@
 import type { APIRoute } from 'astro';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../../../lib/supabase';
+
+export const prerender = false;
 
 export const GET: APIRoute = async () => {
     try {
-
-
+        
         console.log('Attempting to fetch products from Supabase...');
         const { data, error } = await supabase
             .from('products')
