@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { Font } from 'astro:assets';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import CatMenu from '../components/CatMenu.astro';
 ---
 
 <!doctype html>
@@ -20,6 +21,7 @@ import Footer from '../components/Footer.astro';
 	<body class="bg-surface-page flex flex-col min-h-screen">
 		<Navigation />
 		<main class="w-full bg-surface-page flex-1 pt-32 sm:pt-48">
+			<CatMenu />
 			<slot />
 		</main>
 		<Footer />
