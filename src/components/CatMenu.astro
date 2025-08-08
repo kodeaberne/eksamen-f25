@@ -63,8 +63,12 @@ import searchIcon from "../assets/images/search.svg";
         if (catMenu && window.innerWidth >= 1024) {
             catMenu.classList.remove('-translate-y-full');
             const mainContent = document.querySelector('.main-content');
+            const heroSection = document.querySelector('.hero-section');
             if (mainContent) {
                 mainContent.classList.add('lg:ml-64');
+            }
+            if (heroSection) {
+                heroSection.classList.add('lg:ml-64');
             }
         }
         
@@ -76,13 +80,16 @@ import searchIcon from "../assets/images/search.svg";
                 // Toggle on both mobile and desktop
                 catMenu.classList.toggle('-translate-y-full');
                 
-                // Update main content margin on desktop
+                // Update main content and hero margin on desktop
                 const mainContent = document.querySelector('.main-content');
-                if (mainContent && window.innerWidth >= 1024) {
+                const heroSection = document.querySelector('.hero-section');
+                if (window.innerWidth >= 1024) {
                     if (catMenu.classList.contains('-translate-y-full')) {
-                        mainContent.classList.remove('lg:ml-64');
+                        mainContent?.classList.remove('lg:ml-64');
+                        heroSection?.classList.remove('lg:ml-64');
                     } else {
-                        mainContent.classList.add('lg:ml-64');
+                        mainContent?.classList.add('lg:ml-64');
+                        heroSection?.classList.add('lg:ml-64');
                     }
                 }
             });
