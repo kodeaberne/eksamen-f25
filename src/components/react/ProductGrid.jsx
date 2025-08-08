@@ -1,19 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 
+
 export default function ProductGrid() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [heading, setHeading] = useState('Alle produkter');
 
     useEffect(() => {
         fetchProducts();
+        updateHeadingFromURL();
     }, []);
+
+    const updateHeadingFromURL = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('cat');
+        const search = urlParams.get('search');
+        
+        if (category) {
+            setHeading(category);
+        } else if (search) {
+            setHeading(`Søgeresultater for "${search}"`);
+        } else {
+            setHeading('Alle produkter');
+        }
+    };
 
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            const response = await fetch('/api/fetch/products');
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('cat');
+            const search = urlParams.get('search');
+            
+            let url = '/api/fetch/products';
+            const params = new URLSearchParams();
+            
+            if (category) {
+                params.append('platform', category);
+            }
+            if (search) {
+                params.append('search', search);
+            }
+            
+            if (params.toString()) {
+                url += `?${params.toString()}`;
+            }
+            
+            const response = await fetch(url);
             
             if (!response.ok) {
                 throw new Error('Failed to fetch products');
@@ -54,10 +89,13 @@ export default function ProductGrid() {
     }
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6 justify-items-center">
+        <>
+        <h1 className="text-text-body font-heading text-4xl text-center mb-4 mt-12">{heading}</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 p-6 justify-items-center">
             {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
             ))}
         </div>
+            </>
     );
 }
