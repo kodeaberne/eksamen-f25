@@ -1,0 +1,100 @@
+---
+import { Image } from "astro:assets";
+import searchIcon from "../assets/images/search.svg";
+---
+
+<div id="catMenu" class="w-full lg:w-64 flex-shrink-0 | flex flex-col | border-6 border-border-grey z-20 | fixed top-32 sm:top-48 left-0 h-[calc(100vh-8rem)] sm:h-[calc(100vh-12rem)] | bg-surface-page | transform transition-transform duration-300 ease-in-out | lg:translate-y-0 -translate-y-full">
+    <form action="" method="get" class="flex flex-row h-14 | justify-between">
+        <input type="text" name="search" placeholder="Søg efter produkt" class="w-85/100 pl-2 font-pill italic text-xl text-text-body bg-surface-page focus:outline-none"/>
+        <button type="submit" class="w-15/100 bg-surface-search | flex | justify-center | items-center | hover:opacity-80 transition-opacity cursor-pointer">
+            <Image src={searchIcon} alt="Søg" class="w-7 h-7" />
+        </button>
+    </form>
+    <div class="flex-1 overflow-y-auto">
+        <button onclick="window.location.href='/?cat=Nintendo Switch 2'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">Switch 2</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo Switch'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">Switch</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo 3DS'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">Nintendo 3DS</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo DS'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">Nintendo DS</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo Wii U'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">Wii U</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo Wii'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">   
+            <h2 class="font-heading text-2xl">Wii</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo GameCube'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">GameCube</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo 64'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">Nintendo 64</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo NES'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">NES</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo SNES'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">SNES</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo Game Boy'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">Game Boy</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo Game Boy Advance'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">Game Boy Advance</h2>
+        </button>
+        <button onclick="window.location.href='/?cat=Nintendo Game Boy Color'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
+            <h2 class="font-heading text-2xl">Game Boy Color</h2>
+        </button>
+    </div>
+</div>
+
+<script>
+    // Mobile menu toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const catMenu = document.getElementById('catMenu');
+        const productToggle = document.getElementById('product-toggle');
+        
+        // Apply margin to main content on desktop if menu is visible
+        if (window.innerWidth >= 1024) {
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+                mainContent.classList.add('lg:ml-64');
+            }
+        }
+        
+        if (productToggle && catMenu) {
+            productToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Toggle on both mobile and desktop
+                catMenu.classList.toggle('-translate-y-full');
+                
+                // Update main content margin on desktop
+                const mainContent = document.querySelector('.main-content');
+                if (mainContent && window.innerWidth >= 1024) {
+                    if (catMenu.classList.contains('-translate-y-full')) {
+                        mainContent.classList.remove('lg:ml-64');
+                    } else {
+                        mainContent.classList.add('lg:ml-64');
+                    }
+                }
+            });
+        }
+        
+        // Close menu when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth < 1024) { // Only on mobile/tablet
+                const target = event.target as Node;
+                if (!catMenu?.contains(target) && !productToggle?.contains(target)) {
+                    catMenu?.classList.add('-translate-y-full');
+                }
+            }
+        });
+    });
+</script>

@@ -1,49 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Image } from "astro:assets";
-import searchIcon from "../assets/images/search.svg";
+import CatMenu from '../components/CatMenu.astro';
 import ProductGrid from '../components/react/ProductGrid';
 ---
 
 <Layout>
-    <div class="flex">
-        {/* Sidebar */}
-        <div id="catMenu" class="w-64 flex-shrink-0 | flex flex-col | border-6 border-border-grey z-20">
-            <form action="" method="get" class="flex flex-row h-14 | justify-between">
-                <input type="text" placeholder="Søg efter produkt" class="w-85/100 pl-2 font-pill italic text-xl text-text-body bg-surface-page focus:outline-none"/>
-                <button type="submit" class="w-15/100 bg-surface-search | flex | justify-center | items-center">
-                    <Image src={searchIcon} alt="Søg" class="w-7 h-7" />
-                </button>
-            </form>
-            <button class="w-full h-20 bg-surface-button | flex | justify-center | items-center | border-b-4 border-border-grey">
-                <h2 class="font-heading text-text-body-alt text-3xl">Switch 2</h2>
-            </button>
-            <button class="w-full h-20 bg-surface-button | flex | justify-center | items-center | border-b-4 border-border-grey">
-                <h2 class="font-heading text-text-body-alt text-3xl">Switch 2</h2>
-            </button>
-            <button class="w-full h-20 bg-surface-button | flex | justify-center | items-center | border-b-4 border-border-grey">
-                <h2 class="font-heading text-text-body-alt text-3xl">Switch 2</h2>
-            </button>
-            <button class="w-full h-20 bg-surface-button | flex | justify-center | items-center | border-b-4 border-border-grey">
-                <h2 class="font-heading text-text-body-alt text-3xl">Switch 2</h2>
-            </button>
-            <button class="w-full h-20 bg-surface-button | flex | justify-center | items-center | border-b-4 border-border-grey">
-                <h2 class="font-heading text-text-body-alt text-3xl">Switch 2</h2>
-            </button>
-            <button class="w-full h-20 bg-surface-button | flex | justify-center | items-center | border-b-4 border-border-grey">   
-                <h2 class="font-heading text-text-body-alt text-3xl">Switch 2</h2>
-            </button>
-            <button class="w-full h-20 bg-surface-button | flex | justify-center | items-center | border-b-4 border-border-grey">
-                <h2 class="font-heading text-text-body-alt text-3xl">Switch 2</h2>
-            </button>
-            <button class="w-full h-20 bg-surface-button | flex | justify-center | items-center | border-b-4 border-border-grey">
-                <h2 class="font-heading text-text-body-alt text-3xl">Switch 2</h2>
-            </button>
-        </div>
-
-        {/* Main Content */}
-        <div class="flex-1">
-            <ProductGrid client:load />
-        </div>
+    <CatMenu />
+    <div class="main-content">
+        <ProductGrid client:load />
     </div>
 </Layout>

@@ -63,7 +63,7 @@ const AddToCartButton = ({ onClick }) => (
         className="w-full bg-mutedred-400 text-buy-button-text font-bold py-3 px-4 flex items-center justify-between transition-all duration-300 border-2 border-black-700 shadow-product-card hover:shadow-none hover:translate-y-1 hover:translate-x-1 cursor-pointer"
         onClick={onClick}
     >
-        <span className="text-lg font-heading">TILFØJ TIL KURV</span>
+        <span className="text-base font-heading">TILFØJ TIL KURV</span>
         <ShoppingCartIcon />
     </button>
 );
@@ -76,7 +76,7 @@ export default function ProductCard({ product }) {
     };
 
     return (
-        <div className="w-80 bg-surface-product-card border-2 border-black-700 flex flex-col shadow-product-card">
+        <div className="w-76 bg-surface-product-card border-2 border-black-700 flex flex-col shadow-product-card">
             {/* Top Section - Game Cover */}
             <div className="bg-surface-product-card relative h-[32rem] flex-shrink-0 p-2">
                 {/* Pre-order Badge */}
@@ -101,7 +101,7 @@ export default function ProductCard({ product }) {
             <div className="bg-surface-product-card p-4 flex flex-col flex-grow">
                 {/* Product Title and Price */}
                 <div className="mb-4">
-                    <h3 className="font-body text-black-700 text-lg mb-2 line-clamp-2">
+                    <h3 className="font-body text-black-700 text-base mb-2 line-clamp-2">
                         {title}
                     </h3>
                     <PriceDisplay price={price} prevPrice={prevprice} />

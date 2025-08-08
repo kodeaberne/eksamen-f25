@@ -3,14 +3,30 @@ import { supabase } from '../../../lib/supabase';
 
 export const prerender = false;
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ request }) => {
     try {
+        const url = new URL(request.url);
+        const platform = url.searchParams.get('platform');
+        const search = url.searchParams.get('search');
         
         console.log('Attempting to fetch products from Supabase...');
-        const { data, error } = await supabase
+        console.log('Platform filter:', platform);
+        console.log('Search filter:', search);
+        
+        let query = supabase
             .from('products')
             .select('*')
             .order('dateadded', { ascending: false });
+            
+        if (platform) {
+            query = query.eq('platform', platform);
+        }
+        
+        if (search) {
+            query = query.ilike('title', `%${search}%`);
+        }
+
+        const { data, error } = await query;
 
         if (error) {
             console.error('Supabase error:', error);
