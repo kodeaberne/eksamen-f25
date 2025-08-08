@@ -1,6 +1,7 @@
 # Nintendopusheren - Nintendo Game Store
+[![Netlify Status](https://api.netlify.com/api/v1/badges/108a451c-f232-44f2-b1e6-389a2e5c6e6f/deploy-status)](https://app.netlify.com/projects/nintendopusher/deploys)
 
-A modern e-commerce platform for Nintendo games built with Astro, React, and Supabase.
+A modern e-commerce platform for Nintendo games built with Astro, React, Tailwind, and Supabase.
 
 ## Features
 
@@ -91,14 +92,6 @@ The project uses a comprehensive design system with:
 - **Typography**: Custom fonts (RasterForgeRegular, Gill Sans Italic)
 - **Spacing**: Consistent spacing system
 - **Components**: Reusable React components
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
 
 ## License
 
