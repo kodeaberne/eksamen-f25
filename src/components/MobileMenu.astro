@@ -1,0 +1,115 @@
+---
+import CatButton from "./react/CatButton";
+---
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none">
+</div>
+
+<div id="mobile-menu" class="fixed top-0 right-0 w-80 h-full bg-surface-navbar z-50 lg:hidden transform translate-x-full transition-transform duration-300 ease-in-out border-l-6 border-border-grey">
+    <!-- Close button -->
+    <div class="flex justify-end p-6">
+        <button id="mobile-menu-close" class="w-8 h-8 flex flex-col justify-center items-center cursor-pointer">
+            <div class="w-6 h-0.5 bg-surface-burger-icon transform rotate-45 translate-y-0.5"></div>
+            <div class="w-6 h-0.5 bg-surface-burger-icon transform -rotate-45 -translate-y-0.5"></div>
+        </button>
+    </div>
+
+    <!-- Menu Content -->
+    <div class="flex flex-col px-6 py-4 gap-8">
+        <!-- Navigation Items -->
+        <div class="flex flex-col gap-6">
+            <button id="mobile-nyheder" class="flex items-center justify-between py-4 border-b-2 border-border-grey">
+                <h2 class="font-heading text-text-menu-active text-2xl">Nyheder</h2>
+                <img src="/images/chevronDown.svg" alt="Dropdown arrow" class="w-4 h-4">
+            </button>
+            
+            <button id="mobile-info" class="flex items-center justify-between py-4 border-b-2 border-border-grey">
+                <h2 class="font-heading text-text-menu-active text-2xl">Info</h2>
+                <img src="/images/chevronDown.svg" alt="Dropdown arrow" class="w-4 h-4">
+            </button>
+            
+            <button id="mobile-kontakt" class="flex items-center justify-between py-4 border-b-2 border-border-grey">
+                <h2 class="font-heading text-text-menu-active text-2xl">Kontakt</h2>
+                <img src="/images/chevronDown.svg" alt="Dropdown arrow" class="w-4 h-4">
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function initMobileMenu() {
+        const burgerIcon = document.getElementById('burger-icon');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        
+        if (!burgerIcon || !mobileMenu || !mobileMenuOverlay || !mobileMenuClose) return;
+        
+        // Open mobile menu
+        function openMobileMenu() {
+            if (mobileMenu) mobileMenu.classList.remove('translate-x-full');
+            if (mobileMenuOverlay) mobileMenuOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.classList.add('overflow-hidden'); // Prevent body scroll
+            if (burgerIcon) burgerIcon.classList.add('burger-active'); // Animate burger icon
+        }
+        
+        // Close mobile menu
+        function closeMobileMenu() {
+            if (mobileMenu) mobileMenu.classList.add('translate-x-full');
+            if (mobileMenuOverlay) mobileMenuOverlay.classList.add('opacity-0', 'pointer-events-none');
+            document.body.classList.remove('overflow-hidden'); // Restore body scroll
+            if (burgerIcon) burgerIcon.classList.remove('burger-active'); // Reset burger icon
+        }
+        
+        // Event listeners
+        burgerIcon.addEventListener('click', openMobileMenu);
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+        
+        // Close menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !mobileMenu.classList.contains('translate-x-full')) {
+                closeMobileMenu();
+            }
+        });
+        
+        // Handle menu item clicks (placeholder functionality)
+        const menuItems = ['mobile-nyheder', 'mobile-info', 'mobile-kontakt'];
+        menuItems.forEach(itemId => {
+            const item = document.getElementById(itemId);
+            if (item) {
+                item.addEventListener('click', function() {
+                    // Add your menu item functionality here
+                    console.log(`Clicked ${itemId}`);
+                    // For now, we'll just close the menu
+                    closeMobileMenu();
+                });
+            }
+        });
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', initMobileMenu);
+    document.addEventListener('astro:page-load', initMobileMenu);
+    
+    // Fallback for already loaded DOM
+    if (document.readyState !== 'loading') {
+        initMobileMenu();
+    }
+</script>
+
+<style>
+    /* Ensure smooth transitions */
+    #mobile-menu {
+        box-shadow: -4px 0 16px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Hover effects for menu items */
+    #mobile-nyheder:hover h2,
+    #mobile-info:hover h2,
+    #mobile-kontakt:hover h2 {
+        color: var(--color-text-menu-hover);
+        transition: color 0.2s ease-in-out;
+    }
+</style>
