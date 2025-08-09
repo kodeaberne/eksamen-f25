@@ -5,6 +5,7 @@ import ProductToggle from "./react/ProductToggle";
 import CatButton from "./react/CatButton";
 import UserButton from "./react/UserButton";
 import BasketButton from "./react/BasketButton";
+import MobileMenu from "./MobileMenu.astro";
 export const prerender = false;
 
 let logStatus = "loggedOut";
@@ -25,10 +26,10 @@ if (accessToken && refreshToken) {
             <a href="/"><Image src={logo} alt="Nintendopusheren" width={100} height={75} class="hidden sm:block"/></a>
         </div>
         <a href="/" class="hover:no-underline"><h1 class="font-heading text-hero text-2xl sm:text-4xl lg:text-6xl">Nintendopusheren</h1></a>
-        <div id="burger-icon" class="flex flex-col gap-2 | cursor-pointer | lg:hidden">
-            <div class="w-10 h-0.75 | bg-surface-burger-icon"></div>
-            <div class="w-10 h-0.75 | bg-surface-burger-icon"></div>
-            <div class="w-10 h-0.75 | bg-surface-burger-icon"></div>
+        <div id="burger-icon" class="flex flex-col gap-2 | cursor-pointer | lg:hidden self-center">
+            <div class="burger-line w-10 h-0.75 | bg-surface-burger-icon transition-transform duration-300 ease-in-out"></div>
+            <div class="burger-line w-10 h-0.75 | bg-surface-burger-icon transition-transform duration-300 ease-in-out"></div>
+            <div class="burger-line w-10 h-0.75 | bg-surface-burger-icon transition-transform duration-300 ease-in-out"></div>
         </div>
     </div>
     <div id="lower-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between | items-center | px-4 sm:px-8">
@@ -44,6 +45,9 @@ if (accessToken && refreshToken) {
         </div>
     </div>
 </nav>
+
+<!-- Mobile Menu -->
+<MobileMenu />
 
 <script>
     // Backup event dispatch for login success
@@ -66,6 +70,7 @@ if (accessToken && refreshToken) {
 		const upperNav = document.getElementById('upper-nav');
 		const catMenu = document.getElementById('catMenu');
 		const productToggle = document.getElementById('product-toggle');
+		const burgerIcon = document.getElementById('burger-icon');
 		
 		if (!navbar || !upperNav) return;
 		
@@ -165,5 +170,18 @@ if (accessToken && refreshToken) {
 		#catMenu {
 			transition: top 300ms ease-in-out;
 		}
+	}
+	
+	/* Burger icon animation */
+	.burger-active .burger-line:nth-child(1) {
+		transform: rotate(45deg) translate(6px, 6px);
+	}
+	
+	.burger-active .burger-line:nth-child(2) {
+		opacity: 0;
+	}
+	
+	.burger-active .burger-line:nth-child(3) {
+		transform: rotate(-45deg) translate(6px, -6px);
 	}
 </style>
