@@ -3,8 +3,8 @@ import { Image } from "astro:assets";
 import searchIcon from "../assets/images/search.svg";
 ---
 
-<div id="catMenu" class="w-full lg:w-64 flex-shrink-0 | flex flex-col | border-6 border-border-grey z-20 | fixed lg:absolute top-32 sm:top-48 lg:top-48 left-0 h-[calc(100vh-8rem)] sm:h-[calc(100vh-12rem)] lg:h-auto | bg-surface-page | transform transition-all duration-300 ease-in-out | -translate-y-full">
-    <form action="" method="get" class="flex flex-row h-14 | justify-between">
+<div id="catMenu" class="w-full lg:w-64 flex-shrink-0 | flex flex-col | border-6 border-border-grey z-20 | fixed lg:fixed top-32 sm:top-48 lg:top-48 left-0 h-[calc(100vh-8rem)] sm:h-[calc(100vh-12rem)] lg:h-[calc(100vh-12rem)] | bg-surface-page | transform transition-all duration-300 ease-in-out | -translate-y-full">
+    <form action="/products" method="get" class="flex flex-row h-14 | justify-between">
         <input type="text" name="search" placeholder="Søg efter produkt" class="w-85/100 pl-2 font-pill italic text-xl text-text-body bg-surface-page focus:outline-none"/>
         <button type="submit" class="w-15/100 bg-surface-search | flex | justify-center | items-center | hover:opacity-80 transition-opacity cursor-pointer">
             <Image src={searchIcon} alt="Søg" class="w-7 h-7" />
@@ -12,43 +12,43 @@ import searchIcon from "../assets/images/search.svg";
     </form>
     <div class="flex-1 overflow-y-auto">
         <button onclick="window.location.href='/products?cat=Nintendo Switch 2'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">Switch 2</h2>
+            <h2 class="font-heading text-xl lg:text-lg">Switch 2</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo Switch'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">Switch</h2>
+            <h2 class="font-heading text-xl lg:text-lg">Switch</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo 3DS'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">Nintendo 3DS</h2>
+            <h2 class="font-heading text-xl lg:text-lg">Nintendo 3DS</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo DS'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">Nintendo DS</h2>
+            <h2 class="font-heading text-xl lg:text-lg">Nintendo DS</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo Wii U'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">Wii U</h2>
+            <h2 class="font-heading text-xl lg:text-lg">Wii U</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo Wii'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">   
-            <h2 class="font-heading text-2xl">Wii</h2>
+            <h2 class="font-heading text-xl lg:text-lg">Wii</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo GameCube'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">GameCube</h2>
+            <h2 class="font-heading text-xl lg:text-lg">GameCube</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo 64'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">Nintendo 64</h2>
+            <h2 class="font-heading text-xl lg:text-lg">Nintendo 64</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo NES'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">NES</h2>
+            <h2 class="font-heading text-xl lg:text-lg">NES</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo SNES'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">SNES</h2>
+            <h2 class="font-heading text-xl lg:text-lg">SNES</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo Game Boy'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">Game Boy</h2>
+            <h2 class="font-heading text-xl lg:text-lg">Game Boy</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo Game Boy Advance'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">Game Boy Advance</h2>
+            <h2 class="font-heading text-xl lg:text-lg">Game Boy Advance</h2>
         </button>
         <button onclick="window.location.href='/products?cat=Nintendo Game Boy Color'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
-            <h2 class="font-heading text-2xl">Game Boy Color</h2>
+            <h2 class="font-heading text-xl lg:text-lg">Game Boy Color</h2>
         </button>
     </div>
 </div>

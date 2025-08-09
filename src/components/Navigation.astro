@@ -76,7 +76,6 @@ if (accessToken && refreshToken) {
 		// Initialize CatMenu on desktop - show by default
 		if (catMenu && window.innerWidth >= 1024) {
 			catMenu.classList.remove('-translate-y-full');
-			catMenu.classList.add('translate-y-0');
 			isCatMenuVisible = true;
 		}
 
@@ -87,12 +86,10 @@ if (accessToken && refreshToken) {
 					if (isCatMenuVisible) {
 						// Hide CatMenu
 						catMenu.classList.add('catmenu-hidden');
-						catMenu.classList.remove('translate-y-0', 'sm:-translate-y-24');
 						isCatMenuVisible = false;
 					} else {
 						// Show CatMenu
 						catMenu.classList.remove('catmenu-hidden');
-						catMenu.classList.add('translate-y-0');
 						isCatMenuVisible = true;
 					}
 					manualToggleTime = Date.now();
@@ -114,15 +111,17 @@ if (accessToken && refreshToken) {
 				navbar.classList.remove('translate-y-0');
 				
 				// Adjust mobile CatMenu positioning
-				catMenu.classList.remove('top-32');
-				catMenu.classList.add('top-18');
-				catMenu.classList.remove('h-[calc(100vh-8rem)]');
-				catMenu.classList.add('h-[calc(100vh-4.5rem)]');
+				if (catMenu) {
+					catMenu.classList.remove('top-32');
+					catMenu.classList.add('top-18');
+					catMenu.classList.remove('h-[calc(100vh-8rem)]');
+					catMenu.classList.add('h-[calc(100vh-4.5rem)]');
+				}
 				
-				// Move desktop CatMenu with navbar
+				// Adjust desktop CatMenu top position when navbar shrinks
 				if (catMenu && window.innerWidth >= 1024 && isCatMenuVisible && !catMenu.classList.contains('catmenu-hidden')) {
-					catMenu.classList.add('sm:-translate-y-24');
-					catMenu.classList.remove('translate-y-0');
+					catMenu.classList.remove('lg:top-48');
+					catMenu.classList.add('lg:top-24');
 				}
 			} else {
 				// Show upper navbar section
@@ -130,15 +129,17 @@ if (accessToken && refreshToken) {
 				navbar.classList.remove('-translate-y-14', 'sm:-translate-y-24');
 				
 				// Restore mobile CatMenu positioning
-				catMenu.classList.remove('top-18');
-				catMenu.classList.add('top-32');
-				catMenu.classList.remove('h-[calc(100vh-4.5rem)]');
-				catMenu.classList.add('h-[calc(100vh-8rem)]');
+				if (catMenu) {
+					catMenu.classList.remove('top-18');
+					catMenu.classList.add('top-32');
+					catMenu.classList.remove('h-[calc(100vh-4.5rem)]');
+					catMenu.classList.add('h-[calc(100vh-8rem)]');
+				}
 				
 				// Restore desktop CatMenu position
 				if (catMenu && window.innerWidth >= 1024 && isCatMenuVisible && !catMenu.classList.contains('catmenu-hidden')) {
-					catMenu.classList.add('translate-y-0');
-					catMenu.classList.remove('sm:-translate-y-24');
+					catMenu.classList.remove('lg:top-24');
+					catMenu.classList.add('lg:top-48');
 				}
 			}
 			pastScrollPosition = currentScrollPosition;
@@ -158,5 +159,11 @@ if (accessToken && refreshToken) {
 <style>
 	.catmenu-hidden {
 		transform: translateY(-100%) !important;
+	}
+	
+	@media (min-width: 1024px) {
+		#catMenu {
+			transition: top 300ms ease-in-out;
+		}
 	}
 </style>
