@@ -60,6 +60,10 @@ export default function PreorderList() {
         return `${price} kr.`;
     };
 
+    const handleProductClick = (productId) => {
+        window.location.href = `/single?id=${productId}`;
+    };
+
     if (loading) {
         return (
             <section className="w-full preorder-section py-12 px-4 sm:px-6 lg:px-8">
@@ -118,7 +122,8 @@ export default function PreorderList() {
                         {products.map((product) => (
                             <div 
                                 key={product.id} 
-                                className="bg-section-bg-white border-2 border-black-700 p-4 flex items-center space-x-4"
+                                className="bg-section-bg-white border-2 border-black-700 p-4 flex items-center space-x-4 cursor-pointer hover:bg-grey-100 transition-colors duration-200"
+                                onClick={() => handleProductClick(product.id)}
                             >
                                 {/* Small Image */}
                                 <div className="flex-shrink-0 w-16 h-20">
@@ -161,9 +166,10 @@ export default function PreorderList() {
                             {products.map((product, index) => (
                                 <div 
                                     key={product.id}
-                                    className={`px-6 py-4 grid grid-cols-12 gap-4 items-center border-b border-black-300 hover:bg-grey-200 transition-colors duration-200 ${
+                                    className={`px-6 py-4 grid grid-cols-12 gap-4 items-center border-b border-black-300 hover:bg-grey-200 transition-colors duration-200 cursor-pointer ${
                                         index === products.length - 1 ? 'border-b-0' : ''
                                     }`}
+                                    onClick={() => handleProductClick(product.id)}
                                 >
                                     {/* Small Image */}
                                     <div className="col-span-1">
