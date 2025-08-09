@@ -17,8 +17,11 @@ export default function ProductGrid() {
         const urlParams = new URLSearchParams(window.location.search);
         const category = urlParams.get('cat');
         const search = urlParams.get('search');
+        const preorder = urlParams.get('preorder');
         
-        if (category) {
+        if (preorder === 'true') {
+            setHeading('🎮 Kommende Spil 🎮');
+        } else if (category) {
             setHeading(category);
         } else if (search) {
             setHeading(`Søgeresultater for "${search}"`);
@@ -33,6 +36,7 @@ export default function ProductGrid() {
             const urlParams = new URLSearchParams(window.location.search);
             const category = urlParams.get('cat');
             const search = urlParams.get('search');
+            const preorder = urlParams.get('preorder');
             
             let url = '/api/fetch/products';
             const params = new URLSearchParams();
@@ -42,6 +46,9 @@ export default function ProductGrid() {
             }
             if (search) {
                 params.append('search', search);
+            }
+            if (preorder) {
+                params.append('preorder', preorder);
             }
             
             if (params.toString()) {

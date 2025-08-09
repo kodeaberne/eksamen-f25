@@ -59,12 +59,13 @@ import searchIcon from "../assets/images/search.svg";
         const catMenu = document.getElementById('catMenu');
         const productToggle = document.getElementById('product-toggle');
         
-        // Show menu by default on desktop and apply margin
+                // Show menu by default on desktop and apply margin
         if (catMenu && window.innerWidth >= 1024) {
             catMenu.classList.remove('-translate-y-full');
             const mainContent = document.querySelector('.main-content');
             const heroSection = document.querySelector('.hero-section');
             const infoSection = document.querySelector('.info-section');
+            const preorderSection = document.querySelector('.preorder-section');
             if (mainContent) {
                 mainContent.classList.add('lg:ml-64');
             }
@@ -72,7 +73,10 @@ import searchIcon from "../assets/images/search.svg";
                 heroSection.classList.add('lg:ml-64');
             }
             if (infoSection) {
-                infoSection.classList.add('lg:ml-64');
+infoSection.classList.add('lg:ml-64');
+            }
+            if (preorderSection) {
+                preorderSection.classList.add('lg:ml-64');
             }
         }
         
@@ -88,15 +92,18 @@ import searchIcon from "../assets/images/search.svg";
                 const mainContent = document.querySelector('.main-content');
                 const heroSection = document.querySelector('.hero-section');
                 const infoSection = document.querySelector('.info-section');
+                const preorderSection = document.querySelector('.preorder-section');
                 if (window.innerWidth >= 1024) {
                     if (catMenu.classList.contains('-translate-y-full')) {
                         mainContent?.classList.remove('lg:ml-64');
                         heroSection?.classList.remove('lg:ml-64');
                         infoSection?.classList.remove('lg:ml-64');
+                        preorderSection?.classList.remove('lg:ml-64');
                     } else {
                         mainContent?.classList.add('lg:ml-64');
                         heroSection?.classList.add('lg:ml-64');
                         infoSection?.classList.add('lg:ml-64');
+                        preorderSection?.classList.add('lg:ml-64');
                         catMenu.classList.remove('top-18');
                         catMenu.classList.add('top-32');
                     }
