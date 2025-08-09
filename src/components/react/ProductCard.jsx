@@ -95,14 +95,23 @@ const AddToCartButton = ({ onClick }) => (
 );
 
 export default function ProductCard({ product }) {
-    const { preorder, sale, imglink, title, price, prevprice, releasedate } = product;
+    const { id, preorder, sale, imglink, title, price, prevprice, releasedate } = product;
     
-    const handleAddToCart = () => {
+    const handleAddToCart = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         console.log('Adding to cart:', product);
     };
 
+    const handleCardClick = () => {
+        window.location.href = `/single?id=${id}`;
+    };
+
     return (
-        <div className="w-76 bg-surface-product-card border-2 border-black-700 flex flex-col shadow-product-card h-full">
+        <div 
+            className="w-76 bg-surface-product-card border-2 border-black-700 flex flex-col shadow-product-card h-full cursor-pointer transition-all duration-300 hover:shadow-none hover:translate-y-1 hover:translate-x-1"
+            onClick={handleCardClick}
+        >
             {/* Top Section - Game Cover */}
             <div className="bg-surface-product-card relative h-[32rem] flex-shrink-0 p-2">
                 {/* Pre-order Badge */}

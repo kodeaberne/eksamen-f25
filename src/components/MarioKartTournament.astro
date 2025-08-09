@@ -1,5 +1,7 @@
 ---
 // Mario Kart 64 tournament component for Nintendopusheren
+import { Image } from 'astro:assets';
+import mariokartImage from '../assets/images/mariokart.webp';
 ---
 
 <div class="bg-section-bg-green border-2 border-black-700 shadow-product-card p-6 sm:p-8 rounded-none h-full">
@@ -13,10 +15,12 @@
         
         <!-- Tournament Image -->
         <div class="mb-4 overflow-hidden rounded-none border-2 border-black-700">
-            <img 
-                src="/src/assets/images/mariokart.webp" 
+            <Image 
+                src={mariokartImage} 
                 alt="Mario Kart 64 Tournament" 
                 class="w-full h-48 sm:h-56 object-cover"
+                loading="eager"
+                format="webp"
             />
         </div>
     </div>

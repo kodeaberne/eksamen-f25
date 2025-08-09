@@ -1,0 +1,252 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { supabase } from '../lib/supabase';
+
+export const prerender = false;
+
+// Get product ID from URL parameters
+const url = Astro.url;
+const id = url.searchParams.get('id');
+
+let product = null;
+let error = null;
+
+if (id) {
+    try {
+        const { data, error: fetchError } = await supabase
+            .from('products')
+            .select('*')
+            .eq('id', id)
+            .single();
+        
+        if (fetchError) {
+            error = 'Produkt ikke fundet';
+            console.error('Supabase error:', fetchError);
+        } else {
+            product = data;
+        }
+    } catch (err) {
+        error = 'Der opstod en fejl ved hentning af produktet';
+        console.error('Error fetching product:', err);
+    }
+} else {
+    error = 'Ingen produkt ID angivet';
+}
+
+// Helper functions
+const formatPrice = (price: number) => `${price.toFixed(2)} kr.`;
+
+const formatReleaseDate = (dateString: string) => {
+    if (!dateString) return '';
+    
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('da-DK', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    } catch (error) {
+        return dateString;
+    }
+};
+---
+
+<Layout>
+    <div class="container mx-auto px-6 py-8">
+        {error ? (
+            <div class="flex flex-col items-center justify-center min-h-96">
+                <div class="text-red-400 font-heading text-3xl mb-4">Fejl</div>
+                <div class="text-text-body font-pill text-xl mb-8">{error}</div>
+                <a 
+                    href="/products" 
+                    class="bg-mutedred-400 text-buy-button-text font-heading px-6 py-3 border-2 border-black-700 shadow-product-card hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all duration-300"
+                >
+                    Tilbage til produkter
+                </a>
+            </div>
+        ) : product && (
+            <div class="max-w-6xl mx-auto">
+                <!-- Back button -->
+                <div class="mb-8">
+                    <button 
+                        id="backButton"
+                        class="inline-flex items-center text-text-body font-pill text-lg hover:text-mutedred-400 transition-colors duration-300 cursor-pointer bg-transparent border-none"
+                    >
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        <span id="backButtonText">Tilbage til produkter</span>
+                    </button>
+                </div>
+
+                <!-- Product content -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Product image -->
+                    <div class="relative">
+                        <div class="bg-surface-product-card border-2 border-black-700 shadow-product-card relative overflow-hidden">
+                            <!-- Badges -->
+                            {product.preorder && (
+                                <div class="absolute top-4 left-4 bg-yellow-400 text-black-700 px-3 pt-1 rounded-4xl font-pill italic z-10 border-2 border-black-700">
+                                    Pre-order
+                                </div>
+                            )}
+                            
+                            {product.sale && (
+                                <div class="absolute top-4 right-4 bg-red-400 text-white px-3 pt-1 rounded-4xl font-pill italic z-10 border-2 border-black-700">
+                                    SALE
+                                </div>
+                            )}
+
+                            <!-- Product image -->
+                            {product.imglink ? (
+                                <img 
+                                    src={product.imglink} 
+                                    alt={product.title}
+                                    class="w-full h-auto object-cover"
+                                />
+                            ) : (
+                                <div class="w-full h-96 bg-grey-300 flex items-center justify-center">
+                                    <span class="text-grey-600 font-pill text-xl">Intet billede tilgængeligt</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <!-- Product details -->
+                    <div class="flex flex-col">
+                        <!-- Title -->
+                        <h1 class="font-heading text-black-700 text-4xl mb-4">{product.title}</h1>
+                        
+                        <!-- Platform -->
+                        <div class="mb-4">
+                            <span class="bg-surface-button text-grey-100 font-pill px-3 py-1 text-sm border-2 border-black-700">
+                                {product.platform}
+                            </span>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="mb-6">
+                            <div class="flex items-center gap-4">
+                                <span class="text-black-700 font-heading text-5xl">
+                                    {formatPrice(product.price)}
+                                </span>
+                                {product.prevprice && product.prevprice > product.price && (
+                                    <span class="text-grey-600 line-through text-2xl font-pill">
+                                        {formatPrice(product.prevprice)}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        <!-- Release date for preorders -->
+                        {product.preorder && product.releasedate && (
+                            <div class="mb-6 p-4 bg-yellow-100 border-2 border-yellow-400">
+                                <div class="text-black-700 font-pill">
+                                    <strong>Udkommer:</strong> {formatReleaseDate(product.releasedate)}
+                                </div>
+                            </div>
+                        )}
+
+                        <!-- Description -->
+                        <div class="mb-8 flex-grow">
+                            <div class="text-text-body font-pill text-lg leading-relaxed bg-surface-product-card p-6 border-2 border-black-700">
+                                <h2 class="font-heading text-black-700 text-2xl mb-4">Beskrivelse</h2>
+                                {product.description}
+                            </div>
+                        </div>
+
+                        <!-- Add to cart button -->
+                        <div class="mt-auto">
+                            <button 
+                                class="w-full bg-mutedred-400 text-buy-button-text font-heading py-4 px-6 flex items-center justify-between transition-all duration-300 border-2 border-black-700 shadow-product-card hover:shadow-none hover:translate-y-1 hover:translate-x-1 cursor-pointer text-xl"
+                                onclick="console.log('Adding to cart:', this.dataset.product)"
+                                data-product={JSON.stringify(product)}
+                            >
+                                <span>TILFØJ TIL KURV</span>
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clipPath="url(#clip0_274_30)">
+                                        <path d="M1.33325 1.33337H6.66658L10.2399 19.1867C10.3618 19.8006 10.6958 20.352 11.1833 20.7444C11.6708 21.1369 12.2808 21.3454 12.9066 21.3334H25.8666C26.4923 21.3454 27.1023 21.1369 27.5899 20.7444C28.0774 20.352 28.4113 19.8006 28.5332 19.1867L30.6666 8.00004H7.99992M13.3333 28C13.3333 28.7364 12.7363 29.3334 11.9999 29.3334C11.2635 29.3334 10.6666 28.7364 10.6666 28C10.6666 27.2637 11.2635 26.6667 11.9999 26.6667C12.7363 26.6667 13.3333 27.2637 13.3333 28ZM27.9999 28C27.9999 28.7364 27.403 29.3334 26.6666 29.3334C25.9302 29.3334 25.3333 28.7364 25.3333 28C25.3333 27.2637 25.9302 26.6667 26.6666 26.6667C27.403 26.6667 27.9999 27.2637 27.9999 28Z" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_274_30">
+                                            <rect width="32" height="32" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )}
+    </div>
+</Layout>
+
+<style>
+    .container {
+        max-width: 1200px;
+    }
+</style>
+
+<script is:inline>
+    function goBack() {
+        // First try to go back in history if there's a previous page
+        if (document.referrer && document.referrer !== window.location.href) {
+            window.history.back();
+        } else {
+            // Fallback to products page if no referrer
+            window.location.href = '/products';
+        }
+    }
+
+    function updateBackButton() {
+        const backButtonText = document.getElementById('backButtonText');
+        const backButton = document.getElementById('backButton');
+        
+        if (!backButtonText || !backButton) return;
+
+        const referrer = document.referrer;
+        const currentDomain = window.location.origin;
+
+        // Add click event listener
+        backButton.addEventListener('click', goBack);
+
+        // Check if referrer is from the same domain
+        if (referrer && referrer.startsWith(currentDomain)) {
+            const referrerUrl = new URL(referrer);
+            const referrerPath = referrerUrl.pathname;
+            const referrerParams = referrerUrl.searchParams;
+
+            // Determine the appropriate back text based on the referrer
+            if (referrerPath === '/') {
+                backButtonText.textContent = 'Tilbage til forside';
+            } else if (referrerPath === '/products') {
+                // Check for specific filters in the products page
+                const platform = referrerParams.get('cat');
+                const search = referrerParams.get('search');
+                const preorder = referrerParams.get('preorder');
+                
+                if (preorder === 'true') {
+                    backButtonText.textContent = 'Tilbage til kommende spil';
+                } else if (platform) {
+                    backButtonText.textContent = `Tilbage til ${platform}`;
+                } else if (search) {
+                    backButtonText.textContent = `Tilbage til søgning`;
+                } else {
+                    backButtonText.textContent = 'Tilbage til produkter';
+                }
+            } else if (referrerPath === '/dashboard') {
+                backButtonText.textContent = 'Tilbage til dashboard';
+            } else {
+                backButtonText.textContent = 'Tilbage';
+            }
+        } else {
+            // No valid referrer, keep default text
+            backButtonText.textContent = 'Tilbage til produkter';
+        }
+    }
+
+    // Run when the page loads
+    document.addEventListener('DOMContentLoaded', updateBackButton);
+</script>

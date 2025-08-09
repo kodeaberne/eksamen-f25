@@ -2,15 +2,15 @@
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import InfoSection from '../components/InfoSection.astro';
-import PreorderProductGrid from '../components/react/PreorderProductGrid';
+import PreorderList from '../components/react/PreorderList';
 import SaleProductGrid from '../components/react/SaleProductGrid';
 ---
 
 <Layout>
     <Hero />
     <InfoSection />
+    <PreorderList client:load />
     <div class="main-content">
-        <PreorderProductGrid client:load />
         <SaleProductGrid client:load />
     </div>
 </Layout>

@@ -30,12 +30,12 @@ const buttonBaseClasses = "font-heading text-lg px-6 sm:px-8 py-4 border-2 borde
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <button 
-                    onclick="document.querySelector('#preorder-section')?.scrollIntoView({ behavior: 'smooth' })" 
-                    class={`${buttonBaseClasses} bg-mutedred-400 text-buy-button-text`}
+                <a 
+                    href="/products?preorder=true" 
+                    class={`${buttonBaseClasses} bg-mutedred-400 text-buy-button-text block text-center`}
                 >
                     Kommende Spil
-                </button>
+                </a>
                 
                 <button 
                     onclick="document.querySelector('#sale-section')?.scrollIntoView({ behavior: 'smooth' })" 
