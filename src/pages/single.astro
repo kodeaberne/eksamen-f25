@@ -69,15 +69,15 @@ const formatReleaseDate = (dateString: string) => {
             <div class="max-w-6xl mx-auto">
                 <!-- Back button -->
                 <div class="mb-8">
-                    <a 
-                        href="/products" 
-                        class="inline-flex items-center text-text-body font-pill text-lg hover:text-mutedred-400 transition-colors duration-300"
+                    <button 
+                        id="backButton"
+                        class="inline-flex items-center text-text-body font-pill text-lg hover:text-mutedred-400 transition-colors duration-300 cursor-pointer bg-transparent border-none"
                     >
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                         </svg>
-                        Tilbage til produkter
-                    </a>
+                        <span id="backButtonText">Tilbage til produkter</span>
+                    </button>
                 </div>
 
                 <!-- Product content -->
@@ -188,3 +188,65 @@ const formatReleaseDate = (dateString: string) => {
         max-width: 1200px;
     }
 </style>
+
+<script is:inline>
+    function goBack() {
+        // First try to go back in history if there's a previous page
+        if (document.referrer && document.referrer !== window.location.href) {
+            window.history.back();
+        } else {
+            // Fallback to products page if no referrer
+            window.location.href = '/products';
+        }
+    }
+
+    function updateBackButton() {
+        const backButtonText = document.getElementById('backButtonText');
+        const backButton = document.getElementById('backButton');
+        
+        if (!backButtonText || !backButton) return;
+
+        const referrer = document.referrer;
+        const currentDomain = window.location.origin;
+
+        // Add click event listener
+        backButton.addEventListener('click', goBack);
+
+        // Check if referrer is from the same domain
+        if (referrer && referrer.startsWith(currentDomain)) {
+            const referrerUrl = new URL(referrer);
+            const referrerPath = referrerUrl.pathname;
+            const referrerParams = referrerUrl.searchParams;
+
+            // Determine the appropriate back text based on the referrer
+            if (referrerPath === '/') {
+                backButtonText.textContent = 'Tilbage til forside';
+            } else if (referrerPath === '/products') {
+                // Check for specific filters in the products page
+                const platform = referrerParams.get('cat');
+                const search = referrerParams.get('search');
+                const preorder = referrerParams.get('preorder');
+                
+                if (preorder === 'true') {
+                    backButtonText.textContent = 'Tilbage til kommende spil';
+                } else if (platform) {
+                    backButtonText.textContent = `Tilbage til ${platform}`;
+                } else if (search) {
+                    backButtonText.textContent = `Tilbage til søgning`;
+                } else {
+                    backButtonText.textContent = 'Tilbage til produkter';
+                }
+            } else if (referrerPath === '/dashboard') {
+                backButtonText.textContent = 'Tilbage til dashboard';
+            } else {
+                backButtonText.textContent = 'Tilbage';
+            }
+        } else {
+            // No valid referrer, keep default text
+            backButtonText.textContent = 'Tilbage til produkter';
+        }
+    }
+
+    // Run when the page loads
+    document.addEventListener('DOMContentLoaded', updateBackButton);
+</script>
