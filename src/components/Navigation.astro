@@ -60,54 +60,83 @@ if (accessToken && refreshToken) {
 </script>
 
 <script>
-	// EVENTLISTENERS - Move entire navbar up to hide top part and adjust CatMenu on desktop
+	// Initialize navbar scroll behavior and CatMenu toggle
 	function initNavbarScroll() {
-		console.log('Initializing navbar scroll...');
 		const navbar = document.getElementById('header');
 		const upperNav = document.getElementById('upper-nav');
 		const catMenu = document.getElementById('catMenu');
+		const productToggle = document.getElementById('product-toggle');
 		
-		if (!navbar || !upperNav) {
-			console.error('Navbar or upper nav element not found!');
-			return;
+		if (!navbar || !upperNav) return;
+		
+		let pastScrollPosition = 0;
+		let isCatMenuVisible = false;
+		let manualToggleTime = 0;
+
+		// Initialize CatMenu on desktop - show by default
+		if (catMenu && window.innerWidth >= 1024) {
+			catMenu.classList.remove('-translate-y-full');
+			catMenu.classList.add('translate-y-0');
+			isCatMenuVisible = true;
+		}
+
+		// Desktop CatMenu toggle functionality
+		if (productToggle && catMenu) {
+			productToggle.addEventListener('click', () => {
+				if (window.innerWidth >= 1024) {
+					if (isCatMenuVisible) {
+						// Hide CatMenu
+						catMenu.classList.add('catmenu-hidden');
+						catMenu.classList.remove('translate-y-0', 'sm:-translate-y-24');
+						isCatMenuVisible = false;
+					} else {
+						// Show CatMenu
+						catMenu.classList.remove('catmenu-hidden');
+						catMenu.classList.add('translate-y-0');
+						isCatMenuVisible = true;
+					}
+					manualToggleTime = Date.now();
+				}
+			});
 		}
 		
-		console.log('Navbar found:', navbar);
-		let pastScrollPosition = 0;
-		
+		// Navbar scroll behavior
 		window.addEventListener('scroll', () => {
-			let currentScrollPosition = window.scrollY;
-			console.log('Scroll position:', currentScrollPosition, 'Past:', pastScrollPosition);
+			// Prevent interference with manual toggles
+			if (Date.now() - manualToggleTime < 500) return;
 			
-			if (
-				currentScrollPosition > pastScrollPosition &&
-				currentScrollPosition > 130
-			) {
-				console.log('Moving navbar up');
-				// Move navbar up by the height of the upper nav + padding to fully hide logo
+			const currentScrollPosition = window.scrollY;
+			const isScrollingDown = currentScrollPosition > pastScrollPosition && currentScrollPosition > 130;
+			
+			if (isScrollingDown) {
+				// Hide upper navbar section
 				navbar.classList.add('-translate-y-14', 'sm:-translate-y-24');
 				navbar.classList.remove('translate-y-0');
-                catMenu.classList.remove('top-32');
-                catMenu.classList.add('top-18');
-                catMenu.classList.remove('h-[calc(100vh-8rem)]');
-                catMenu.classList.add('h-[calc(100vh-4.5rem)]');
 				
-				// Move CatMenu up on desktop to follow navbar
-				if (catMenu && window.innerWidth >= 1024) {
+				// Adjust mobile CatMenu positioning
+				catMenu.classList.remove('top-32');
+				catMenu.classList.add('top-18');
+				catMenu.classList.remove('h-[calc(100vh-8rem)]');
+				catMenu.classList.add('h-[calc(100vh-4.5rem)]');
+				
+				// Move desktop CatMenu with navbar
+				if (catMenu && window.innerWidth >= 1024 && isCatMenuVisible && !catMenu.classList.contains('catmenu-hidden')) {
 					catMenu.classList.add('sm:-translate-y-24');
 					catMenu.classList.remove('translate-y-0');
 				}
 			} else {
-				console.log('Moving navbar down');
+				// Show upper navbar section
 				navbar.classList.add('translate-y-0');
 				navbar.classList.remove('-translate-y-14', 'sm:-translate-y-24');
-                catMenu.classList.remove('top-18');
-                catMenu.classList.add('top-32');
-                catMenu.classList.remove('h-[calc(100vh-4.5rem)]');
-                catMenu.classList.add('h-[calc(100vh-8rem)]');
 				
-				// Move CatMenu back to original position on desktop
-				if (catMenu && window.innerWidth >= 1024) {
+				// Restore mobile CatMenu positioning
+				catMenu.classList.remove('top-18');
+				catMenu.classList.add('top-32');
+				catMenu.classList.remove('h-[calc(100vh-4.5rem)]');
+				catMenu.classList.add('h-[calc(100vh-8rem)]');
+				
+				// Restore desktop CatMenu position
+				if (catMenu && window.innerWidth >= 1024 && isCatMenuVisible && !catMenu.classList.contains('catmenu-hidden')) {
 					catMenu.classList.add('translate-y-0');
 					catMenu.classList.remove('sm:-translate-y-24');
 				}
@@ -116,14 +145,18 @@ if (accessToken && refreshToken) {
 		});
 	}
 
-	// Try multiple events to ensure it works
+	// Initialize on page load
 	document.addEventListener('DOMContentLoaded', initNavbarScroll);
 	document.addEventListener('astro:page-load', initNavbarScroll);
 	
-	// Fallback - run immediately if DOM is already loaded
-	if (document.readyState === 'loading') {
-		// Do nothing, one of the above events will fire
-	} else {
+	// Fallback for already loaded DOM
+	if (document.readyState !== 'loading') {
 		initNavbarScroll();
 	}
 </script>
+
+<style>
+	.catmenu-hidden {
+		transform: translateY(-100%) !important;
+	}
+</style>
