@@ -1,0 +1,39 @@
+---
+// Map section component for Nintendopusheren shop location
+---
+
+<div class="bg-surface-product-card border-2 border-black-700 shadow-product-card p-4 sm:p-6 lg:p-4 rounded-none h-full flex flex-col">
+    <h3 class="font-heading text-lg font-bold text-text-body mb-4 lg:mb-3 flex items-center">
+        <svg class="w-5 h-5 lg:w-4 lg:h-4 mr-2 text-mutedred-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+        </svg>
+        Find os her
+    </h3>
+    
+    <!-- Address Info -->
+    <div class="mb-4 lg:mb-3">
+        <div class="bg-mutedred-100 border-2 border-mutedred-400 p-2 lg:p-1 rounded-none">
+            <p class="font-body text-text-body font-semibold text-base mb-1">
+                Nintendopusheren
+            </p>
+            <p class="font-body text-text-body text-base">
+                Ydunsgade 4-6, kælderen<br>
+                2200 København N
+            </p>
+        </div>
+    </div>
+
+    <!-- Map Container - Takes remaining space -->
+    <div class="bg-grey-200 border-2 border-black-700 rounded-none flex-1 flex items-center justify-center">
+        <!-- Embedded Google Maps -->
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2248.1234567890!2d12.5655!3d55.6980!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4652531c6c6c6c6c%3A0x1234567890abcdef!2sYdunsgade%204-6%2C%202200%20K%C3%B8benhavn%20N%2C%20Denmark!5e0!3m2!1sen!2sdk!4v1234567890123!5m2!1sen!2sdk"
+            class="w-full h-full border-0"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Nintendopusheren Location">
+        </iframe>
+    </div>
+</div>

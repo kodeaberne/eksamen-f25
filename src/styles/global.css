@@ -94,6 +94,7 @@
     --color-surface-button-alt: var(--color-mutedred-400);
     --color-text-body: var(--color-black-400);
     --color-text-body-alt: var(--color-grey-400);
+    --color-text-section-header: var(--color-grey-100);
     --color-text-menu-active: var(--color-grey-200);
     --color-text-menu-hover: var(--color-mutedred-400);
     --color-border-black: var(--color-black-700);
@@ -105,4 +106,13 @@
     --color-text-price: var(--color-black-600);
     --color-buy-button: var(--color-mutedred-400);
     --color-buy-button-text: var(--color-grey-100);
+    --color-section-bg-blue: var(--color-blue-400);
+    --color-section-bg-red: var(--color-red-400);
+    --color-section-bg-green: var(--color-green-400);
+    --color-section-bg-yellow: var(--color-yellow-400);
+    --color-section-bg-grey: var(--color-grey-400);
+    --color-section-bg-mutedred: var(--color-mutedred-400);
+    --color-section-border-mutedred: var(--color-mutedred-400);
+    --color-section-bg-white: var(--color-grey-100);
+    --color-section-border-white: var(--color-grey-100);
 }

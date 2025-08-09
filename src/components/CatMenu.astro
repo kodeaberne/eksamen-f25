@@ -64,15 +64,15 @@ import searchIcon from "../assets/images/search.svg";
             catMenu.classList.remove('-translate-y-full');
             const mainContent = document.querySelector('.main-content');
             const heroSection = document.querySelector('.hero-section');
-            const openingHoursSection = document.querySelector('.opening-hours-section');
+            const infoSection = document.querySelector('.info-section');
             if (mainContent) {
                 mainContent.classList.add('lg:ml-64');
             }
             if (heroSection) {
                 heroSection.classList.add('lg:ml-64');
             }
-            if (openingHoursSection) {
-                openingHoursSection.classList.add('lg:ml-64');
+            if (infoSection) {
+                infoSection.classList.add('lg:ml-64');
             }
         }
         
@@ -87,16 +87,16 @@ import searchIcon from "../assets/images/search.svg";
                 // Update main content and hero margin on desktop
                 const mainContent = document.querySelector('.main-content');
                 const heroSection = document.querySelector('.hero-section');
-                const openingHoursSection = document.querySelector('.opening-hours-section');
+                const infoSection = document.querySelector('.info-section');
                 if (window.innerWidth >= 1024) {
                     if (catMenu.classList.contains('-translate-y-full')) {
                         mainContent?.classList.remove('lg:ml-64');
                         heroSection?.classList.remove('lg:ml-64');
-                        openingHoursSection?.classList.remove('lg:ml-64');
+                        infoSection?.classList.remove('lg:ml-64');
                     } else {
                         mainContent?.classList.add('lg:ml-64');
                         heroSection?.classList.add('lg:ml-64');
-                        openingHoursSection?.classList.add('lg:ml-64');
+                        infoSection?.classList.add('lg:ml-64');
                         catMenu.classList.remove('top-18');
                         catMenu.classList.add('top-32');
                     }
