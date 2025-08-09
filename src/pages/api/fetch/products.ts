@@ -8,10 +8,12 @@ export const GET: APIRoute = async ({ request }) => {
         const url = new URL(request.url);
         const platform = url.searchParams.get('platform');
         const search = url.searchParams.get('search');
+        const sale = url.searchParams.get('sale');
         
         console.log('Attempting to fetch products from Supabase...');
         console.log('Platform filter:', platform);
         console.log('Search filter:', search);
+        console.log('Sale filter:', sale);
         
         let query = supabase
             .from('products')
@@ -24,6 +26,10 @@ export const GET: APIRoute = async ({ request }) => {
         
         if (search) {
             query = query.ilike('title', `%${search}%`);
+        }
+        
+        if (sale === 'true') {
+            query = query.eq('sale', true);
         }
 
         const { data, error } = await query;

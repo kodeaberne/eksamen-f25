@@ -16,7 +16,6 @@ const buttonBaseClasses = "font-heading text-lg px-6 sm:px-8 py-4 border-2 borde
             loading="eager"
             format="webp"
         />
-        <div class="absolute inset-0 bg-black/50"></div>
     </div>
     
     <!-- Hero Content -->
@@ -27,19 +26,22 @@ const buttonBaseClasses = "font-heading text-lg px-6 sm:px-8 py-4 border-2 borde
             </h1>
             
             <p class="font-body text-lg sm:text-xl md:text-2xl text-grey-100 mb-8 max-w-2xl mx-auto drop-shadow-2xl bg-black/30 px-4 sm:px-6 py-3 rounded-lg backdrop-blur-sm">
-                Opdag den største samling af Nintendo spil og konsoller. Fra klassiske titler til de nyeste udgivelser.
+                Fra de nyeste udgivelser til gamle barndomsminder - besøg vores butik på Nørrebro eller check vores udvalg her på siden.
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <button 
-                    onclick="document.querySelector('.main-content')?.scrollIntoView({ behavior: 'smooth' })" 
+                    onclick="document.querySelector('#preorder-section')?.scrollIntoView({ behavior: 'smooth' })" 
                     class={`${buttonBaseClasses} bg-mutedred-400 text-buy-button-text`}
                 >
-                    Udforsk Produkter
+                    Kommende Spil
                 </button>
                 
-                <button class={`${buttonBaseClasses} bg-surface-page text-text-body`}>
-                    Se Tilbud
+                <button 
+                    onclick="document.querySelector('#sale-section')?.scrollIntoView({ behavior: 'smooth' })" 
+                    class={`${buttonBaseClasses} bg-surface-page text-text-body`}
+                >
+                Se Tilbud
                 </button>
             </div>
         </div>

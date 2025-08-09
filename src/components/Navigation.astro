@@ -20,11 +20,11 @@ if (accessToken && refreshToken) {
 ---
 
 <nav class="bg-surface-navbar | w-full h-32 sm:h-48 | flex flex-col | justify-around | fixed top-0 left-0 z-50 | pt-4 pb-4 sm:pb-0">
-    <div id="upper-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between | px-4 sm:px-8">
-        <div class="hidden lg:block self-center">    
+    <div id="upper-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between lg:justify-center lg:relative | px-4 sm:px-8">
+        <div class="hidden lg:block lg:absolute lg:left-4 xl:left-8 self-center">    
             <a href="/"><Image src={logo} alt="Nintendopusheren" width={130} height={100} class="hidden sm:block"/></a>
         </div>
-        <a href="/"><h1 class="font-heading text-hero text-2xl sm:text-4xl lg:text-6xl | justify-self-center | sm:m-auto">Nintendopusheren</h1></a>
+        <a href="/" class="hover:no-underline"><h1 class="font-heading text-hero text-2xl sm:text-4xl lg:text-6xl">Nintendopusheren</h1></a>
         <div id="burger-icon" class="flex flex-col gap-2 | cursor-pointer | lg:hidden">
             <div class="w-10 h-0.75 | bg-surface-burger-icon"></div>
             <div class="w-10 h-0.75 | bg-surface-burger-icon"></div>
