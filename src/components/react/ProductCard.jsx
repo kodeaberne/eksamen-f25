@@ -3,6 +3,21 @@ import React from 'react';
 // Helper functions
 const formatPrice = (price) => `${price.toFixed(2)} kr.`;
 
+const formatReleaseDate = (dateString) => {
+    if (!dateString) return '';
+    
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('da-DK', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    } catch (error) {
+        return dateString; // Return original string if parsing fails
+    }
+};
+
 const ShoppingCartIcon = () => (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clipPath="url(#clip0_274_30)">
@@ -57,6 +72,17 @@ const PriceDisplay = ({ price, prevPrice }) => (
     </div>
 );
 
+// Release date component for preorders
+const ReleaseDateDisplay = ({ releaseDate }) => {
+    if (!releaseDate) return null;
+    
+    return (
+        <div className="text-grey-600 font-pill text-sm mt-2">
+            Udkommer: {formatReleaseDate(releaseDate)}
+        </div>
+    );
+};
+
 // Add to cart button component
 const AddToCartButton = ({ onClick }) => (
     <button 
@@ -69,14 +95,14 @@ const AddToCartButton = ({ onClick }) => (
 );
 
 export default function ProductCard({ product }) {
-    const { preorder, sale, imglink, title, price, prevprice } = product;
+    const { preorder, sale, imglink, title, price, prevprice, releasedate } = product;
     
     const handleAddToCart = () => {
         console.log('Adding to cart:', product);
     };
 
     return (
-        <div className="w-76 bg-surface-product-card border-2 border-black-700 flex flex-col shadow-product-card">
+        <div className="w-76 bg-surface-product-card border-2 border-black-700 flex flex-col shadow-product-card h-full">
             {/* Top Section - Game Cover */}
             <div className="bg-surface-product-card relative h-[32rem] flex-shrink-0 p-2">
                 {/* Pre-order Badge */}
@@ -98,17 +124,29 @@ export default function ProductCard({ product }) {
             </div>
 
             {/* Bottom Section - Product Details and Buy Button */}
-            <div className="bg-surface-product-card p-4 flex flex-col flex-grow">
-                {/* Product Title and Price */}
-                <div className="mb-4">
-                    <h3 className="font-body text-black-700 text-base mb-2 line-clamp-2">
+            <div className="bg-surface-product-card p-4 grid grid-rows-[auto_auto_auto_1fr_auto] gap-2 flex-grow">
+                {/* Product Title - Fixed height for 2 lines */}
+                <div className="h-12">
+                    <h3 className="font-body text-black-700 text-base line-clamp-2">
                         {title}
                     </h3>
+                </div>
+                
+                {/* Price - Fixed height */}
+                <div className="h-6">
                     <PriceDisplay price={price} prevPrice={prevprice} />
                 </div>
+                
+                {/* Release Date for Preorders - Fixed height */}
+                <div className="h-5">
+                    {preorder && <ReleaseDateDisplay releaseDate={releasedate} />}
+                </div>
 
-                {/* Add to Cart Button */}
-                <div className="mt-auto">
+                {/* Flexible spacer */}
+                <div></div>
+
+                {/* Add to Cart Button - Always at bottom */}
+                <div>
                     <AddToCartButton onClick={handleAddToCart} />
                 </div>
             </div>

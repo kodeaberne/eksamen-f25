@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CatMenu from '../components/CatMenu.astro';
+import ProductGrid from '../components/react/ProductGrid';
+---
+
+<Layout>
+    <CatMenu />
+    <div class="main-content">
+        <ProductGrid client:load />
+    </div>
+</Layout>

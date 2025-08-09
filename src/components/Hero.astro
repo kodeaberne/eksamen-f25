@@ -1,0 +1,56 @@
+---
+import { Image } from "astro:assets";
+import heroBg from "../assets/images/herobg.webp";
+
+// Shared button styles
+const buttonBaseClasses = "font-heading text-lg px-6 sm:px-8 py-4 border-2 border-black-700 shadow-product-card hover:shadow-none hover:translate-y-1 hover:translate-x-1 transition-all duration-300 cursor-pointer w-full sm:w-auto max-w-xs";
+---
+
+<section class="hero-section relative w-full h-[80vh] min-h-[500px] overflow-hidden transition-all duration-300 ease-in-out">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 z-0">
+        <Image 
+            src={heroBg} 
+            alt="Hero Background" 
+            class="w-full h-full object-cover object-top"
+            loading="eager"
+            format="webp"
+        />
+    </div>
+    
+    <!-- Hero Content -->
+    <div class="relative z-10 flex flex-col justify-center items-center h-full px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-grey-100 mb-6 drop-shadow-2xl">
+                Velkommen til Nintendo<br class="sm:hidden">pusheren
+            </h1>
+            
+            <p class="font-body text-lg sm:text-xl md:text-2xl text-grey-100 mb-8 max-w-2xl mx-auto drop-shadow-2xl bg-black/30 px-4 sm:px-6 py-3 rounded-lg backdrop-blur-sm">
+                Fra de nyeste udgivelser til gamle barndomsminder - besøg vores butik på Nørrebro eller check vores udvalg her på siden.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button 
+                    onclick="document.querySelector('#preorder-section')?.scrollIntoView({ behavior: 'smooth' })" 
+                    class={`${buttonBaseClasses} bg-mutedred-400 text-buy-button-text`}
+                >
+                    Kommende Spil
+                </button>
+                
+                <button 
+                    onclick="document.querySelector('#sale-section')?.scrollIntoView({ behavior: 'smooth' })" 
+                    class={`${buttonBaseClasses} bg-surface-page text-text-body`}
+                >
+                Se Tilbud
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* When CatMenu is visible on desktop, adjust width to fit remaining viewport */
+    .hero-section.lg\:ml-64 {
+        width: calc(100vw - 16rem);
+    }
+</style>
