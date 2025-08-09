@@ -19,10 +19,10 @@ if (accessToken && refreshToken) {
 }
 ---
 
-<nav class="bg-surface-navbar | w-full h-32 sm:h-48 | flex flex-col | justify-around | fixed top-0 left-0 z-50 | pt-4 pb-4 sm:pb-0">
-    <div id="upper-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between lg:justify-center lg:relative | px-4 sm:px-8">
+<nav id="header" class="bg-surface-navbar | w-full h-32 sm:h-48 | flex flex-col | justify-around | fixed top-0 left-0 z-50 | pt-4 pb-4 sm:pb-0 | transition-transform duration-300 ease-in-out">
+    <div id="upper-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between lg:justify-center lg:relative | px-4 sm:px-8 | pb-2 sm:pb-3">
         <div class="hidden lg:block lg:absolute lg:left-4 xl:left-8 self-center">    
-            <a href="/"><Image src={logo} alt="Nintendopusheren" width={130} height={100} class="hidden sm:block"/></a>
+            <a href="/"><Image src={logo} alt="Nintendopusheren" width={100} height={75} class="hidden sm:block"/></a>
         </div>
         <a href="/" class="hover:no-underline"><h1 class="font-heading text-hero text-2xl sm:text-4xl lg:text-6xl">Nintendopusheren</h1></a>
         <div id="burger-icon" class="flex flex-col gap-2 | cursor-pointer | lg:hidden">
@@ -55,4 +55,75 @@ if (accessToken && refreshToken) {
             window.dispatchEvent(new CustomEvent('loginSuccess'));
         }
     });
+
+    
+</script>
+
+<script>
+	// EVENTLISTENERS - Move entire navbar up to hide top part and adjust CatMenu on desktop
+	function initNavbarScroll() {
+		console.log('Initializing navbar scroll...');
+		const navbar = document.getElementById('header');
+		const upperNav = document.getElementById('upper-nav');
+		const catMenu = document.getElementById('catMenu');
+		
+		if (!navbar || !upperNav) {
+			console.error('Navbar or upper nav element not found!');
+			return;
+		}
+		
+		console.log('Navbar found:', navbar);
+		let pastScrollPosition = 0;
+		
+		window.addEventListener('scroll', () => {
+			let currentScrollPosition = window.scrollY;
+			console.log('Scroll position:', currentScrollPosition, 'Past:', pastScrollPosition);
+			
+			if (
+				currentScrollPosition > pastScrollPosition &&
+				currentScrollPosition > 130
+			) {
+				console.log('Moving navbar up');
+				// Move navbar up by the height of the upper nav + padding to fully hide logo
+				navbar.classList.add('-translate-y-14', 'sm:-translate-y-24');
+				navbar.classList.remove('translate-y-0');
+                catMenu.classList.remove('top-32');
+                catMenu.classList.add('top-18');
+                catMenu.classList.remove('h-[calc(100vh-8rem)]');
+                catMenu.classList.add('h-[calc(100vh-4.5rem)]');
+				
+				// Move CatMenu up on desktop to follow navbar
+				if (catMenu && window.innerWidth >= 1024) {
+					catMenu.classList.add('sm:-translate-y-24');
+					catMenu.classList.remove('translate-y-0');
+				}
+			} else {
+				console.log('Moving navbar down');
+				navbar.classList.add('translate-y-0');
+				navbar.classList.remove('-translate-y-14', 'sm:-translate-y-24');
+                catMenu.classList.remove('top-18');
+                catMenu.classList.add('top-32');
+                catMenu.classList.remove('h-[calc(100vh-4.5rem)]');
+                catMenu.classList.add('h-[calc(100vh-8rem)]');
+				
+				// Move CatMenu back to original position on desktop
+				if (catMenu && window.innerWidth >= 1024) {
+					catMenu.classList.add('translate-y-0');
+					catMenu.classList.remove('sm:-translate-y-24');
+				}
+			}
+			pastScrollPosition = currentScrollPosition;
+		});
+	}
+
+	// Try multiple events to ensure it works
+	document.addEventListener('DOMContentLoaded', initNavbarScroll);
+	document.addEventListener('astro:page-load', initNavbarScroll);
+	
+	// Fallback - run immediately if DOM is already loaded
+	if (document.readyState === 'loading') {
+		// Do nothing, one of the above events will fire
+	} else {
+		initNavbarScroll();
+	}
 </script>
