@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import searchIcon from "../assets/images/search.svg";
 ---
 
-<div id="catMenu" class="w-full lg:w-64 flex-shrink-0 | flex flex-col | border-6 border-border-grey z-20 | fixed top-32 sm:top-48 left-0 h-[calc(100vh-8rem)] sm:h-[calc(100vh-12rem)] | bg-surface-page | transform transition-transform duration-300 ease-in-out | -translate-y-full">
+<div id="catMenu" class="w-full lg:w-64 flex-shrink-0 | flex flex-col | border-6 border-border-grey z-20 | fixed lg:absolute top-32 sm:top-48 lg:top-48 left-0 h-[calc(100vh-8rem)] sm:h-[calc(100vh-12rem)] lg:h-auto | bg-surface-page | transform transition-all duration-300 ease-in-out | -translate-y-full">
     <form action="" method="get" class="flex flex-row h-14 | justify-between">
         <input type="text" name="search" placeholder="Søg efter produkt" class="w-85/100 pl-2 font-pill italic text-xl text-text-body bg-surface-page focus:outline-none"/>
         <button type="submit" class="w-15/100 bg-surface-search | flex | justify-center | items-center | hover:opacity-80 transition-opacity cursor-pointer">
@@ -90,6 +90,8 @@ import searchIcon from "../assets/images/search.svg";
                     } else {
                         mainContent?.classList.add('lg:ml-64');
                         heroSection?.classList.add('lg:ml-64');
+                        catMenu.classList.remove('top-18');
+                        catMenu.classList.add('top-32');
                     }
                 }
             });

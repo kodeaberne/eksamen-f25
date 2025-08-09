@@ -19,10 +19,10 @@ if (accessToken && refreshToken) {
 }
 ---
 
-<nav class="bg-surface-navbar | w-full h-32 sm:h-48 | flex flex-col | justify-around | fixed top-0 left-0 z-50 | pt-4 pb-4 sm:pb-0">
-    <div id="upper-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between lg:justify-center lg:relative | px-4 sm:px-8">
+<nav id="header" class="bg-surface-navbar | w-full h-32 sm:h-48 | flex flex-col | justify-around | fixed top-0 left-0 z-50 | pt-4 pb-4 sm:pb-0 | transition-transform duration-300 ease-in-out">
+    <div id="upper-nav" class="w-full h-14 sm:h-22 | flex flex-row | justify-between lg:justify-center lg:relative | px-4 sm:px-8 | pb-2 sm:pb-3">
         <div class="hidden lg:block lg:absolute lg:left-4 xl:left-8 self-center">    
-            <a href="/"><Image src={logo} alt="Nintendopusheren" width={130} height={100} class="hidden sm:block"/></a>
+            <a href="/"><Image src={logo} alt="Nintendopusheren" width={100} height={75} class="hidden sm:block"/></a>
         </div>
         <a href="/" class="hover:no-underline"><h1 class="font-heading text-hero text-2xl sm:text-4xl lg:text-6xl">Nintendopusheren</h1></a>
         <div id="burger-icon" class="flex flex-col gap-2 | cursor-pointer | lg:hidden">
@@ -55,4 +55,108 @@ if (accessToken && refreshToken) {
             window.dispatchEvent(new CustomEvent('loginSuccess'));
         }
     });
+
+    
 </script>
+
+<script>
+	// Initialize navbar scroll behavior and CatMenu toggle
+	function initNavbarScroll() {
+		const navbar = document.getElementById('header');
+		const upperNav = document.getElementById('upper-nav');
+		const catMenu = document.getElementById('catMenu');
+		const productToggle = document.getElementById('product-toggle');
+		
+		if (!navbar || !upperNav) return;
+		
+		let pastScrollPosition = 0;
+		let isCatMenuVisible = false;
+		let manualToggleTime = 0;
+
+		// Initialize CatMenu on desktop - show by default
+		if (catMenu && window.innerWidth >= 1024) {
+			catMenu.classList.remove('-translate-y-full');
+			catMenu.classList.add('translate-y-0');
+			isCatMenuVisible = true;
+		}
+
+		// Desktop CatMenu toggle functionality
+		if (productToggle && catMenu) {
+			productToggle.addEventListener('click', () => {
+				if (window.innerWidth >= 1024) {
+					if (isCatMenuVisible) {
+						// Hide CatMenu
+						catMenu.classList.add('catmenu-hidden');
+						catMenu.classList.remove('translate-y-0', 'sm:-translate-y-24');
+						isCatMenuVisible = false;
+					} else {
+						// Show CatMenu
+						catMenu.classList.remove('catmenu-hidden');
+						catMenu.classList.add('translate-y-0');
+						isCatMenuVisible = true;
+					}
+					manualToggleTime = Date.now();
+				}
+			});
+		}
+		
+		// Navbar scroll behavior
+		window.addEventListener('scroll', () => {
+			// Prevent interference with manual toggles
+			if (Date.now() - manualToggleTime < 500) return;
+			
+			const currentScrollPosition = window.scrollY;
+			const isScrollingDown = currentScrollPosition > pastScrollPosition && currentScrollPosition > 130;
+			
+			if (isScrollingDown) {
+				// Hide upper navbar section
+				navbar.classList.add('-translate-y-14', 'sm:-translate-y-24');
+				navbar.classList.remove('translate-y-0');
+				
+				// Adjust mobile CatMenu positioning
+				catMenu.classList.remove('top-32');
+				catMenu.classList.add('top-18');
+				catMenu.classList.remove('h-[calc(100vh-8rem)]');
+				catMenu.classList.add('h-[calc(100vh-4.5rem)]');
+				
+				// Move desktop CatMenu with navbar
+				if (catMenu && window.innerWidth >= 1024 && isCatMenuVisible && !catMenu.classList.contains('catmenu-hidden')) {
+					catMenu.classList.add('sm:-translate-y-24');
+					catMenu.classList.remove('translate-y-0');
+				}
+			} else {
+				// Show upper navbar section
+				navbar.classList.add('translate-y-0');
+				navbar.classList.remove('-translate-y-14', 'sm:-translate-y-24');
+				
+				// Restore mobile CatMenu positioning
+				catMenu.classList.remove('top-18');
+				catMenu.classList.add('top-32');
+				catMenu.classList.remove('h-[calc(100vh-4.5rem)]');
+				catMenu.classList.add('h-[calc(100vh-8rem)]');
+				
+				// Restore desktop CatMenu position
+				if (catMenu && window.innerWidth >= 1024 && isCatMenuVisible && !catMenu.classList.contains('catmenu-hidden')) {
+					catMenu.classList.add('translate-y-0');
+					catMenu.classList.remove('sm:-translate-y-24');
+				}
+			}
+			pastScrollPosition = currentScrollPosition;
+		});
+	}
+
+	// Initialize on page load
+	document.addEventListener('DOMContentLoaded', initNavbarScroll);
+	document.addEventListener('astro:page-load', initNavbarScroll);
+	
+	// Fallback for already loaded DOM
+	if (document.readyState !== 'loading') {
+		initNavbarScroll();
+	}
+</script>
+
+<style>
+	.catmenu-hidden {
+		transform: translateY(-100%) !important;
+	}
+</style>

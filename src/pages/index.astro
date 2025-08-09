@@ -1,13 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import CatMenu from '../components/CatMenu.astro';
 import Hero from '../components/Hero.astro';
 import PreorderProductGrid from '../components/react/PreorderProductGrid';
 import SaleProductGrid from '../components/react/SaleProductGrid';
 ---
 
 <Layout>
-    <CatMenu />
     <Hero />
     <div class="main-content">
         <PreorderProductGrid client:load />
