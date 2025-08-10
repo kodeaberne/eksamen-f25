@@ -1,34 +1,70 @@
 ---
+// Import React component for category button functionality
+// This allows the mobile menu to integrate with the existing category system
 import CatButton from "./react/CatButton";
 ---
 
-<!-- Mobile Menu Overlay -->
+<!-- Mobile Menu Overlay - Semi-transparent background that covers the entire viewport -->
+<!-- Fixed positioning with inset-0 creates a full-screen overlay -->
+<!-- z-40 ensures it's above most content but below the mobile menu itself -->
+<!-- lg:hidden hides the overlay on large screens where mobile menu isn't needed -->
+<!-- opacity-0 and pointer-events-none keep it invisible and non-interactive by default -->
 <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none">
 </div>
 
+<!-- Mobile Menu Container - Slides in from the right side of the screen -->
+<!-- Fixed positioning with right-0 positions it on the right edge -->
+<!-- w-80 gives it a fixed width of 320px for consistent mobile experience -->
+<!-- h-full makes it full height of the viewport -->
+<!-- z-50 ensures it's above all other content including the overlay -->
+<!-- transform translate-x-full initially hides it off-screen to the right -->
+<!-- transition-transform creates smooth slide-in animation -->
+<!-- border-l-6 adds left border for visual separation from main content -->
 <div id="mobile-menu" class="fixed top-0 right-0 w-80 h-full bg-surface-navbar z-50 lg:hidden transform translate-x-full transition-transform duration-300 ease-in-out border-l-6 border-border-grey">
-    <!-- Close button -->
+    
+    <!-- Close Button Container - Positioned at the top right of the menu -->
     <div class="flex justify-end p-6">
+        <!-- Close Button - Custom X icon created with CSS transforms -->
+        <!-- w-8 h-8 creates a 32x32px clickable area -->
+        <!-- flex flex-col centers the two lines that form the X -->
         <button id="mobile-menu-close" class="w-8 h-8 flex flex-col justify-center items-center cursor-pointer">
+            <!-- First line of X - rotated 45 degrees and translated for perfect alignment -->
             <div class="w-6 h-0.5 bg-surface-burger-icon transform rotate-45 translate-y-0.5"></div>
+            <!-- Second line of X - rotated -45 degrees and translated in opposite direction -->
             <div class="w-6 h-0.5 bg-surface-burger-icon transform -rotate-45 -translate-y-0.5"></div>
         </button>
     </div>
 
-    <!-- Menu Content -->
+    <!-- Menu Content Container - Main navigation area with proper spacing -->
+    <!-- flex flex-col creates vertical layout for menu items -->
+    <!-- px-6 py-4 adds horizontal and vertical padding -->
+    <!-- gap-8 creates consistent spacing between major sections -->
     <div class="flex flex-col px-6 py-4 gap-8">
-        <!-- Navigation Items -->
+        
+        <!-- Navigation Items Container - Groups all menu buttons together -->
+        <!-- flex flex-col creates vertical stack of navigation items -->
+        <!-- gap-6 provides consistent spacing between each navigation button -->
         <div class="flex flex-col gap-6">
+            
+            <!-- News Navigation Button -->
+            <!-- flex items-center justify-between creates horizontal layout with space between text and icon -->
+            <!-- py-4 adds vertical padding for comfortable touch targets -->
+            <!-- border-b-2 adds bottom border for visual separation -->
             <button id="mobile-nyheder" class="flex items-center justify-between py-4 border-b-2 border-border-grey">
                 <h2 class="font-heading text-text-menu-active text-2xl">Nyheder</h2>
+                <!-- Dropdown arrow icon - indicates expandable/collapsible functionality -->
                 <img src="/images/chevronDown.svg" alt="Dropdown arrow" class="w-4 h-4">
             </button>
             
+            <!-- Info Navigation Button -->
+            <!-- Follows same pattern as news button for consistency -->
             <button id="mobile-info" class="flex items-center justify-between py-4 border-b-2 border-border-grey">
                 <h2 class="font-heading text-text-menu-active text-2xl">Info</h2>
                 <img src="/images/chevronDown.svg" alt="Dropdown arrow" class="w-4 h-4">
             </button>
             
+            <!-- Contact Navigation Button -->
+            <!-- Follows same pattern as other navigation buttons -->
             <button id="mobile-kontakt" class="flex items-center justify-between py-4 border-b-2 border-border-grey">
                 <h2 class="font-heading text-text-menu-active text-2xl">Kontakt</h2>
                 <img src="/images/chevronDown.svg" alt="Dropdown arrow" class="w-4 h-4">
@@ -38,15 +74,24 @@ import CatButton from "./react/CatButton";
 </div>
 
 <script>
+    // Main function to initialize all mobile menu functionality
+    // Centralizes all menu logic for better maintainability and debugging
     function initMobileMenu() {
+        // Get references to all required DOM elements
+        // Early return if any essential elements are missing to prevent errors
         const burgerIcon = document.getElementById('burger-icon');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
         const mobileMenuClose = document.getElementById('mobile-menu-close');
         
+        // Guard clause: exit function if any required elements are missing
         if (!burgerIcon || !mobileMenu || !mobileMenuOverlay || !mobileMenuClose) return;
         
-        // Open mobile menu
+        // Function to open the mobile menu with smooth animations
+        // Removes translate-x-full to slide menu in from right
+        // Removes opacity-0 and pointer-events-none to show and enable overlay
+        // Adds overflow-hidden to body to prevent background scrolling
+        // Adds burger-active class to animate the hamburger icon
         function openMobileMenu() {
             if (mobileMenu) mobileMenu.classList.remove('translate-x-full');
             if (mobileMenuOverlay) mobileMenuOverlay.classList.remove('opacity-0', 'pointer-events-none');
@@ -54,7 +99,11 @@ import CatButton from "./react/CatButton";
             if (burgerIcon) burgerIcon.classList.add('burger-active'); // Animate burger icon
         }
         
-        // Close mobile menu
+        // Function to close the mobile menu and restore normal state
+        // Adds translate-x-full to slide menu out to the right
+        // Adds opacity-0 and pointer-events-none to hide and disable overlay
+        // Removes overflow-hidden to restore body scrolling
+        // Removes burger-active class to reset hamburger icon
         function closeMobileMenu() {
             if (mobileMenu) mobileMenu.classList.add('translate-x-full');
             if (mobileMenuOverlay) mobileMenuOverlay.classList.add('opacity-0', 'pointer-events-none');
@@ -62,50 +111,66 @@ import CatButton from "./react/CatButton";
             if (burgerIcon) burgerIcon.classList.remove('burger-active'); // Reset burger icon
         }
         
-        // Event listeners
+        // Event listener setup for user interactions
+        // Burger icon click opens the menu
         burgerIcon.addEventListener('click', openMobileMenu);
+        // Close button click closes the menu
         mobileMenuClose.addEventListener('click', closeMobileMenu);
+        // Overlay click closes the menu (click outside functionality)
         mobileMenuOverlay.addEventListener('click', closeMobileMenu);
         
-        // Close menu on escape key
+        // Keyboard accessibility: Escape key closes the menu
+        // Only active when menu is open (not containing translate-x-full)
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && !mobileMenu.classList.contains('translate-x-full')) {
                 closeMobileMenu();
             }
         });
         
-        // Handle menu item clicks (placeholder functionality)
+        // Handle navigation menu item clicks with placeholder functionality
+        // Array of menu item IDs for easy maintenance and iteration
         const menuItems = ['mobile-nyheder', 'mobile-info', 'mobile-kontakt'];
         menuItems.forEach(itemId => {
             const item = document.getElementById(itemId);
             if (item) {
+                // Add click event listener to each menu item
                 item.addEventListener('click', function() {
-                    // Add your menu item functionality here
+                    // Placeholder for future menu item functionality
                     console.log(`Clicked ${itemId}`);
-                    // For now, we'll just close the menu
+                    // Currently just closes the menu - can be extended later
                     closeMobileMenu();
                 });
             }
         });
     }
     
-    // Initialize on page load
+    // Multiple initialization strategies for different loading scenarios
+    // DOMContentLoaded: standard DOM ready event
     document.addEventListener('DOMContentLoaded', initMobileMenu);
+    // astro:page-load: Astro-specific event for SPA navigation
     document.addEventListener('astro:page-load', initMobileMenu);
     
-    // Fallback for already loaded DOM
+    // Fallback for cases where DOM is already loaded when script runs
+    // document.readyState !== 'loading' means DOM is already complete
     if (document.readyState !== 'loading') {
         initMobileMenu();
     }
 </script>
 
 <style>
-    /* Ensure smooth transitions */
+    /* Custom CSS for enhanced visual effects and smooth interactions */
+    
+    /* Box shadow for mobile menu to create depth and separation from background */
+    /* Negative x-offset (-4px) creates shadow on the left side */
+    /* 16px blur radius creates soft, natural-looking shadow */
     #mobile-menu {
         box-shadow: -4px 0 16px rgba(0, 0, 0, 0.3);
     }
     
-    /* Hover effects for menu items */
+    /* Hover effects for menu navigation items */
+    /* Targets the h2 elements within each navigation button */
+    /* Changes text color to hover state with smooth transition */
+    /* 0.2s duration provides quick but noticeable feedback */
     #mobile-nyheder:hover h2,
     #mobile-info:hover h2,
     #mobile-kontakt:hover h2 {

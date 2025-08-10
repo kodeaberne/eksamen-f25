@@ -1,52 +1,95 @@
 ---
+// Import Astro's optimized Image component for better performance and asset handling
 import { Image } from "astro:assets";
+// Import search icon SVG for the search button
 import searchIcon from "../assets/images/search.svg";
 ---
 
+<!-- Category Menu Container - Fixed positioning with responsive behavior -->
+<!-- Uses complex Tailwind CSS classes with logical grouping for maintainability -->
+<!-- Fixed positioning ensures menu stays in view during scroll on all devices -->
 <div id="catMenu" class="w-full lg:w-64 flex-shrink-0 | flex flex-col | border-6 border-border-grey z-20 | fixed lg:fixed top-32 sm:top-48 lg:top-48 left-0 h-[calc(100vh-8rem)] sm:h-[calc(100vh-12rem)] lg:h-[calc(100vh-12rem)] | bg-surface-page | transform transition-all duration-300 ease-in-out | -translate-y-full">
+    
+    <!-- Search Form - Horizontal layout with input and submit button -->
+    <!-- Form action redirects to products page with search query parameter -->
     <form action="/products" method="get" class="flex flex-row h-14 | justify-between">
+        <!-- Search Input - Takes 85% width with custom styling and focus states -->
         <input type="text" name="search" placeholder="Søg efter produkt" class="w-85/100 pl-2 font-pill italic text-xl text-text-body bg-surface-page focus:outline-none"/>
+        <!-- Search Button - Takes 15% width with hover effects and icon -->
         <button type="submit" class="w-15/100 bg-surface-search | flex | justify-center | items-center | hover:opacity-80 transition-opacity cursor-pointer">
             <Image src={searchIcon} alt="Søg" class="w-7 h-7" />
         </button>
     </form>
+    
+    <!-- Category Buttons Container - Scrollable area for navigation -->
+    <!-- flex-1 allows this section to take remaining height after search form -->
     <div class="flex-1 overflow-y-auto">
+        <!-- Nintendo Switch 2 Category Button -->
+        <!-- onclick navigation with query parameter for category filtering -->
+        <!-- Responsive height: h-24 on mobile, h-20 on small screens and up -->
+        <!-- Hover effects with color transitions and border styling -->
         <button onclick="window.location.href='/products?cat=Nintendo Switch 2'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">Switch 2</h2>
         </button>
+        
+        <!-- Nintendo Switch Category Button -->
+        <!-- Consistent styling pattern across all category buttons -->
         <button onclick="window.location.href='/products?cat=Nintendo Switch'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">Switch</h2>
         </button>
+        
+        <!-- Nintendo 3DS Category Button -->
+        <!-- Each button follows the same pattern for maintainability -->
         <button onclick="window.location.href='/products?cat=Nintendo 3DS'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">Nintendo 3DS</h2>
         </button>
+        
+        <!-- Nintendo DS Category Button -->
         <button onclick="window.location.href='/products?cat=Nintendo DS'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">Nintendo DS</h2>
         </button>
+        
+        <!-- Nintendo Wii U Category Button -->
         <button onclick="window.location.href='/products?cat=Nintendo Wii U'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">Wii U</h2>
         </button>
+        
+        <!-- Nintendo Wii Category Button -->
         <button onclick="window.location.href='/products?cat=Nintendo Wii'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">   
             <h2 class="font-heading text-xl lg:text-lg">Wii</h2>
         </button>
+        
+        <!-- Nintendo GameCube Category Button -->
         <button onclick="window.location.href='/products?cat=Nintendo GameCube'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">GameCube</h2>
         </button>
+        
+        <!-- Nintendo 64 Category Button -->
         <button onclick="window.location.href='/products?cat=Nintendo 64'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">Nintendo 64</h2>
         </button>
+        
+        <!-- Nintendo NES Category Button -->
         <button onclick="window.location.href='/products?cat=Nintendo NES'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">NES</h2>
         </button>
+        
+        <!-- Nintendo SNES Category Button -->
         <button onclick="window.location.href='/products?cat=Nintendo SNES'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">SNES</h2>
         </button>
+        
+        <!-- Nintendo Game Boy Category Button -->
         <button onclick="window.location.href='/products?cat=Nintendo Game Boy'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">Game Boy</h2>
         </button>
+        
+        <!-- Nintendo Game Boy Advance Category Button -->
         <button onclick="window.location.href='/products?cat=Nintendo Game Boy Advance'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">Game Boy Advance</h2>
         </button>
+        
+        <!-- Nintendo Game Boy Color Category Button -->
         <button onclick="window.location.href='/products?cat=Nintendo Game Boy Color'" class="w-full h-24 sm:h-20 bg-surface-button text-text-body-alt | flex | justify-center | items-center | border-b-4 border-border-grey | hover:bg-text-body-alt hover:text-surface-button transition-colors duration-200 cursor-pointer">
             <h2 class="font-heading text-xl lg:text-lg">Game Boy Color</h2>
         </button>
@@ -54,18 +97,26 @@ import searchIcon from "../assets/images/search.svg";
 </div>
 
 <script>
-    // Mobile menu toggle functionality
+    // Mobile menu toggle functionality with responsive behavior
+    // Runs after DOM content is loaded to ensure all elements are available
     document.addEventListener('DOMContentLoaded', function() {
+        // Get references to DOM elements for menu manipulation
         const catMenu = document.getElementById('catMenu');
         const productToggle = document.getElementById('product-toggle');
         
-                // Show menu by default on desktop and apply margin
+        // Desktop initialization: Show menu by default on large screens (lg: 1024px+)
+        // Apply left margin to main content sections to accommodate fixed sidebar
         if (catMenu && window.innerWidth >= 1024) {
+            // Remove initial hidden state (-translate-y-full) on desktop
             catMenu.classList.remove('-translate-y-full');
+            
+            // Get references to main content sections that need margin adjustment
             const mainContent = document.querySelector('.main-content');
             const heroSection = document.querySelector('.hero-section');
             const infoSection = document.querySelector('.info-section');
             const preorderSection = document.querySelector('.preorder-section');
+            
+            // Add left margin (lg:ml-64) to push content right of the 256px sidebar
             if (mainContent) {
                 mainContent.classList.add('lg:ml-64');
             }
@@ -73,37 +124,46 @@ import searchIcon from "../assets/images/search.svg";
                 heroSection.classList.add('lg:ml-64');
             }
             if (infoSection) {
-infoSection.classList.add('lg:ml-64');
+                infoSection.classList.add('lg:ml-64');
             }
             if (preorderSection) {
                 preorderSection.classList.add('lg:ml-64');
             }
         }
         
+        // Event listener for menu toggle button (both mobile and desktop)
         if (productToggle && catMenu) {
             productToggle.addEventListener('click', function(e) {
+                // Prevent default button behavior and stop event propagation
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Toggle on both mobile and desktop
+                // Toggle menu visibility by adding/removing -translate-y-full class
+                // This works on both mobile and desktop due to fixed positioning
                 catMenu.classList.toggle('-translate-y-full');
                 
-                // Update main content and hero margin on desktop
+                // Get references to content sections for margin management
                 const mainContent = document.querySelector('.main-content');
                 const heroSection = document.querySelector('.hero-section');
                 const infoSection = document.querySelector('.info-section');
                 const preorderSection = document.querySelector('.preorder-section');
+                
+                // Desktop-specific margin management (lg: 1024px+)
                 if (window.innerWidth >= 1024) {
                     if (catMenu.classList.contains('-translate-y-full')) {
+                        // Menu is hidden: remove left margin to center content
                         mainContent?.classList.remove('lg:ml-64');
                         heroSection?.classList.remove('lg:ml-64');
                         infoSection?.classList.remove('lg:ml-64');
                         preorderSection?.classList.remove('lg:ml-64');
                     } else {
+                        // Menu is visible: add left margin to accommodate sidebar
                         mainContent?.classList.add('lg:ml-64');
                         heroSection?.classList.add('lg:ml-64');
                         infoSection?.classList.add('lg:ml-64');
                         preorderSection?.classList.add('lg:ml-64');
+                        
+                        // Reset menu positioning classes for proper display
                         catMenu.classList.remove('top-18');
                         catMenu.classList.add('top-32');
                     }
@@ -111,10 +171,14 @@ infoSection.classList.add('lg:ml-64');
             });
         }
         
-        // Close menu when clicking outside on mobile
+        // Mobile/tablet click-outside functionality to close menu
+        // Only active on screens smaller than 1024px (lg breakpoint)
         document.addEventListener('click', function(event) {
             if (window.innerWidth < 1024) { // Only on mobile/tablet
                 const target = event.target as Node;
+                
+                // Close menu if click is outside both menu and toggle button
+                // Uses optional chaining (?.) for safe DOM manipulation
                 if (!catMenu?.contains(target) && !productToggle?.contains(target)) {
                     catMenu?.classList.add('-translate-y-full');
                 }

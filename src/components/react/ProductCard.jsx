@@ -1,8 +1,11 @@
 import React from 'react';
 
-// Helper functions
+// Utility function to format price with Danish currency (kr.) and 2 decimal places
+// Ensures consistent price display across all product cards
 const formatPrice = (price) => `${price.toFixed(2)} kr.`;
 
+// Utility function to format release dates in Danish locale
+// Handles date parsing errors gracefully by returning original string if parsing fails
 const formatReleaseDate = (dateString) => {
     if (!dateString) return '';
     
@@ -18,6 +21,8 @@ const formatReleaseDate = (dateString) => {
     }
 };
 
+// SVG icon component for the shopping cart button
+// Uses inline SVG for better performance and customization compared to external image files
 const ShoppingCartIcon = () => (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clipPath="url(#clip0_274_30)">
@@ -31,7 +36,9 @@ const ShoppingCartIcon = () => (
     </svg>
 );
 
-// Badge component
+// Reusable badge component for displaying product status (pre-order, sale, etc.)
+// Uses absolute positioning and z-index to overlay on product images
+// Accepts custom className and style props for flexibility
 const Badge = ({ children, className, style }) => (
     <div 
         className={`absolute top-4 px-3 pt-1 rounded-4xl font-pill italic z-10 border-2 border-black-700 ${className}`}
@@ -41,7 +48,9 @@ const Badge = ({ children, className, style }) => (
     </div>
 );
 
-// Image component
+// Product image component with fallback handling
+// Displays placeholder text and styling when no image is available
+// Uses object-cover to maintain aspect ratio while filling container
 const ProductImage = ({ src, alt, title }) => (
     <div className="w-full h-full relative">
         {src ? (
@@ -58,7 +67,9 @@ const ProductImage = ({ src, alt, title }) => (
     </div>
 );
 
-// Price display component
+// Price display component with sale price comparison
+// Shows current price prominently and previous price with strikethrough if on sale
+// Uses flexbox for proper alignment and spacing
 const PriceDisplay = ({ price, prevPrice }) => (
     <div className="flex items-center justify-between">
         <span className="text-black-700 font-body text-xl">
@@ -72,7 +83,9 @@ const PriceDisplay = ({ price, prevPrice }) => (
     </div>
 );
 
-// Release date component for preorders
+// Release date component specifically for pre-order products
+// Only renders when releaseDate is provided, otherwise returns null
+// Uses Danish locale formatting for consistent user experience
 const ReleaseDateDisplay = ({ releaseDate }) => {
     if (!releaseDate) return null;
     
@@ -83,7 +96,9 @@ const ReleaseDateDisplay = ({ releaseDate }) => {
     );
 };
 
-// Add to cart button component
+// Add to cart button component with hover animations
+// Uses CSS transitions for smooth hover effects (shadow removal and translation)
+// Includes shopping cart icon and Danish text for localization
 const AddToCartButton = ({ onClick }) => (
     <button 
         className="w-full bg-mutedred-400 text-buy-button-text font-bold py-3 px-4 flex items-center justify-between transition-all duration-300 border-2 border-black-700 shadow-product-card hover:shadow-none hover:translate-y-1 hover:translate-x-1 cursor-pointer"
@@ -94,15 +109,23 @@ const AddToCartButton = ({ onClick }) => (
     </button>
 );
 
+// Main ProductCard component that composes all sub-components
+// Handles product data destructuring and event handling
 export default function ProductCard({ product }) {
+    // Destructure product object to extract individual properties
+    // This makes the code more readable and prevents repeated object access
     const { id, preorder, sale, imglink, title, price, prevprice, releasedate } = product;
     
+    // Event handler for add to cart button
+    // Prevents event bubbling and default behavior to avoid navigation conflicts
     const handleAddToCart = (e) => {
         e.preventDefault();
         e.stopPropagation();
         console.log('Adding to cart:', product);
     };
 
+    // Event handler for card click navigation
+    // Redirects to single product page with product ID as query parameter
     const handleCardClick = () => {
         window.location.href = `/single?id=${id}`;
     };
@@ -112,49 +135,51 @@ export default function ProductCard({ product }) {
             className="w-76 bg-surface-product-card border-2 border-black-700 flex flex-col shadow-product-card h-full cursor-pointer transition-all duration-300 hover:shadow-none hover:translate-y-1 hover:translate-x-1"
             onClick={handleCardClick}
         >
-            {/* Top Section - Game Cover */}
+            {/* Top Section - Game Cover with Badges */}
+            {/* Fixed height container ensures consistent card layout across different image sizes */}
             <div className="bg-surface-product-card relative h-[32rem] flex-shrink-0 p-2">
-                {/* Pre-order Badge */}
+                {/* Pre-order Badge - Conditionally rendered based on product.preorder flag */}
                 {preorder && (
                     <Badge className="left-4 bg-yellow-400 text-black-700">
                         Pre-order
                     </Badge>
                 )}
 
-                {/* Sale Badge */}
+                {/* Sale Badge - Conditionally rendered based on product.sale flag */}
                 {sale && (
                     <Badge className="right-4 bg-red-400 text-white text-sm">
                         SALE
                     </Badge>
                 )}
 
-                {/* Game Cover Image */}
+                {/* Game Cover Image - Handles both valid images and fallback cases */}
                 <ProductImage src={imglink} alt={title} title={title} />
             </div>
 
             {/* Bottom Section - Product Details and Buy Button */}
+            {/* Grid layout with fixed row heights ensures consistent spacing and alignment */}
             <div className="bg-surface-product-card p-4 grid grid-rows-[auto_auto_auto_1fr_auto] gap-2 flex-grow">
-                {/* Product Title - Fixed height for 2 lines */}
+                {/* Product Title - Fixed height container for consistent 2-line text display */}
                 <div className="h-12">
                     <h3 className="font-body text-black-700 text-base line-clamp-2">
                         {title}
                     </h3>
                 </div>
                 
-                {/* Price - Fixed height */}
+                {/* Price Display - Fixed height for consistent spacing */}
                 <div className="h-6">
                     <PriceDisplay price={price} prevPrice={prevprice} />
                 </div>
                 
-                {/* Release Date for Preorders - Fixed height */}
+                {/* Release Date for Preorders - Fixed height, only shows for pre-order products */}
                 <div className="h-5">
                     {preorder && <ReleaseDateDisplay releaseDate={releasedate} />}
                 </div>
 
-                {/* Flexible spacer */}
+                {/* Flexible spacer - Uses remaining space to push button to bottom */}
                 <div></div>
 
-                {/* Add to Cart Button - Always at bottom */}
+                {/* Add to Cart Button - Always positioned at bottom of card */}
                 <div>
                     <AddToCartButton onClick={handleAddToCart} />
                 </div>
